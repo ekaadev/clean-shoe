@@ -2,6 +2,7 @@
 	export let title: string;
 	export let description: string;
 	export let price: number;
+  export let image: string;
 	export let estimationday: number;
 </script>
 
@@ -9,7 +10,7 @@
 	<!-- Gambar dengan overlay gelap saat hover -->
 	<div class="relative">
 		<img
-			src="/assets/images.png"
+			src="{image}"
 			alt="Service preview"
 			class="w-full h-40 object-cover transition-all duration-300 group-hover:brightness-75"
 		/>
