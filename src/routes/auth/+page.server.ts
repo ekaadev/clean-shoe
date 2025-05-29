@@ -1,7 +1,5 @@
 import { type Actions, redirect } from '@sveltejs/kit';
 
-// TODO : LINK TO TABLE USERS IF POSSIBLE
-
 export const actions: Actions = {
 	signup: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData();
