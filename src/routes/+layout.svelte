@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { ModeWatcher } from 'mode-watcher';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
@@ -17,4 +18,5 @@
 	});
 </script>
 
+<ModeWatcher />
 {@render children()}
