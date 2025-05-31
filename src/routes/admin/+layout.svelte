@@ -12,7 +12,7 @@
 	<AppSidebar variant="inset" />
 	<Sidebar.Inset>
 		<SiteHeader />
-		<div class="p-4">
+		<div>
 			{@render children()}
 		</div>
 	</Sidebar.Inset>
