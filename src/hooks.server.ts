@@ -48,6 +48,28 @@ const supabase: Handle = async ({ event, resolve }) => {
 			};
 		}
 
+		if (session) {
+			// get data from table users
+			const { data: users, error } = await event.locals.supabase
+				.from('users')
+				.select('*')
+				.eq('id', session.user.id)
+				.single();
+			if (error) {
+				// TODO: log error
+				return { session: null, user: null };
+			}
+			if (user) {
+				event.locals.profile = {
+					id: users.id,
+					name: users.name,
+					email: users.email,
+					phone_number: users.phone_number,
+					address: users.address,
+					role: users.role
+				};
+			}
+		}
 		return { session, user };
 	};
 
@@ -66,6 +88,8 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	const { session, user } = await event.locals.safeGetSession();
 	event.locals.session = session;
 	event.locals.user = user;
+
+	console.log('Profile:', event.locals.profile);
 
 	if (!event.locals.session && event.url.pathname.startsWith('/private')) {
 		redirect(303, '/auth');
