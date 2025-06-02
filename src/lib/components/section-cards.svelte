@@ -1,14 +1,7 @@
 <script lang="ts">
 	import * as Card from '@/components/ui/card/index';
 	import { page } from '$app/state';
-
-	const toIndonesianCurrency = (value: number): string => {
-		return new Intl.NumberFormat('id-ID', {
-			style: 'currency',
-			currency: 'IDR',
-			minimumFractionDigits: 0
-		}).format(value);
-	};
+	import { toIndonesianCurrency } from '$lib/helper/currency';
 </script>
 
 <div

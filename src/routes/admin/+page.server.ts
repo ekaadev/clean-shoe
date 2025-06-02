@@ -4,11 +4,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const totalRevenue = await getTotalRevenue(locals.supabase);
 	const totalOrder = await getTotalOrder(locals.supabase);
 	const totalCustomer = await getTotalAllCustomer(locals.supabase);
+	const tableOrder = await getTableOrder(locals.supabase);
 
 	return {
 		totalRevenue: totalRevenue || 0,
 		totalOrder: totalOrder || 0,
-		totalCustomer: totalCustomer || 0
+		totalCustomer: totalCustomer || 0,
+		tableOrder: tableOrder || []
 	};
 };
 
@@ -39,4 +41,19 @@ const getTotalAllCustomer = async (supabase: SupabaseClient) => {
 		return 0; // Return 0 or handle the error as needed
 	}
 	return data || 0; // Return the data or 0 if no data is found
+};
+
+const getTableOrder = async (supabase: SupabaseClient) => {
+	let { data: orders, error } = await supabase
+		.from('orders')
+		.select('id,total_amount,status,payment_status, created_at')
+		.eq('status', 'pending')
+		.eq('payment_status', 'paid')
+		.order('created_at', { ascending: true })
+		.limit(8);
+	if (error) {
+		console.error('Error fetching orders:', error);
+		return []; // Return an empty array or handle the error as needed
+	}
+	return orders || []; // Return the orders or an empty array if no data is found
 };
