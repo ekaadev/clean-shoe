@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-1 @3xl/main:grid-cols-3"
+	class="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @3xl/main:grid-cols-4"
 >
 	<Card.Root class="@container/card">
 		<Card.Header>
@@ -41,6 +41,18 @@
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
 			<div class="line-clamp-1 flex gap-2 font-medium">Strong user retention</div>
 			<div class="text-muted-foreground">Engagement exceed targets</div>
+		</Card.Footer>
+	</Card.Root>
+	<Card.Root class="@container/card">
+		<Card.Header>
+			<Card.Description>Order Pending</Card.Description>
+			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+				{page.data?.totalPendingOrder || 0}
+			</Card.Title>
+		</Card.Header>
+		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
+			<div class="line-clamp-1 flex gap-2 font-medium">Waiting for staff action</div>
+			<div class="text-muted-foreground">Please take action for order</div>
 		</Card.Footer>
 	</Card.Root>
 </div>
