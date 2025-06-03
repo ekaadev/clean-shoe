@@ -5,12 +5,16 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const totalOrder = await getTotalOrder(locals.supabase);
 	const totalCustomer = await getTotalAllCustomer(locals.supabase);
 	const tableOrder = await getTableOrder(locals.supabase);
+	const orderEachDay = await getOrderEachDay(locals.supabase);
+	const totalPendingOrder = await getTotalPendingOrder(locals.supabase);
 
 	return {
 		totalRevenue: totalRevenue || 0,
 		totalOrder: totalOrder || 0,
 		totalCustomer: totalCustomer || 0,
-		tableOrder: tableOrder || []
+		totalPendingOrder: totalPendingOrder || 0,
+		tableOrder: tableOrder || [],
+		orderEachDay: orderEachDay || []
 	};
 };
 
@@ -56,4 +60,23 @@ const getTableOrder = async (supabase: SupabaseClient) => {
 		return []; // Return an empty array or handle the error as needed
 	}
 	return orders || []; // Return the orders or an empty array if no data is found
+};
+
+const getOrderEachDay = async (supabase: SupabaseClient) => {
+	let { data, error } = await supabase.rpc('get_order_each_day');
+	if (error) {
+		console.error('Error fetching orders each day:', error);
+		return []; // Return an empty array or handle the error as needed
+	}
+
+	return data || []; // Return the data or an empty array if no data is found
+};
+
+const getTotalPendingOrder = async (supabase: SupabaseClient) => {
+	let { data, error } = await supabase.rpc('get_total_pending_order');
+	if (error) {
+		console.error('Error fetching total pending orders:', error);
+		return 0; // Return 0 or handle the error as needed
+	}
+	return data || 0; // Return the data or 0 if no data is found
 };
