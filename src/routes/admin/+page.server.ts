@@ -48,7 +48,7 @@ const getTotalAllCustomer = async (supabase: SupabaseClient) => {
 };
 
 const getTableOrder = async (supabase: SupabaseClient) => {
-	let { data: orders, error } = await supabase
+	const { data: orders, error } = await supabase
 		.from('orders')
 		.select('id,total_amount,status,payment_status, created_at')
 		.eq('status', 'pending')
@@ -63,7 +63,7 @@ const getTableOrder = async (supabase: SupabaseClient) => {
 };
 
 const getOrderEachDay = async (supabase: SupabaseClient) => {
-	let { data, error } = await supabase.rpc('get_order_each_day');
+	const { data, error } = await supabase.rpc('get_order_each_day');
 	if (error) {
 		console.error('Error fetching orders each day:', error);
 		return []; // Return an empty array or handle the error as needed
@@ -73,7 +73,7 @@ const getOrderEachDay = async (supabase: SupabaseClient) => {
 };
 
 const getTotalPendingOrder = async (supabase: SupabaseClient) => {
-	let { data, error } = await supabase.rpc('get_total_pending_order');
+	const { data, error } = await supabase.rpc('get_total_pending_order');
 	if (error) {
 		console.error('Error fetching total pending orders:', error);
 		return 0; // Return 0 or handle the error as needed
