@@ -5,14 +5,8 @@
 	import CircleCheckFilledIcon from '@tabler/icons-svelte/icons/circle-check-filled';
 	import Circle from '@tabler/icons-svelte/icons/circle';
 	import { toIndonesianCurrency } from '$lib/helper/currency';
-
-	const getLastStringUUID = (value: string): string => {
-		return value.split('-').slice(-1)[0];
-	};
-
-	const toUppercaseFirstWord = (value: string): string => {
-		return value.charAt(0).toUpperCase() + value.slice(1);
-	};
+	import { toUppercaseFirstWord } from '$lib/helper/format';
+	import { getLastStringUUID } from '$lib/helper/format';
 </script>
 
 <div class="px-4 lg:px-6">
