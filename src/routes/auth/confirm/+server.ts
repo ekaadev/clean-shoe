@@ -1,4 +1,5 @@
 import { redirect, type RequestHandler } from '@sveltejs/kit';
+// return must object
 import type { EmailOtpType } from '@supabase/supabase-js';
 
 export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {

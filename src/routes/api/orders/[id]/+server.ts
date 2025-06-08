@@ -50,24 +50,18 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 
 	try {
 		const body = await request.json();
-		const { status } = body;
+		const { status, payment_status, pickup_date, delivery_date } = body;
 
-		// Validate status
-		const validStatuses = [
-			'pending',
-			'confirmed',
-			'processing',
-			'ready_for_delivery',
-			'delivered',
-			'cancelled'
-		];
-		if (!validStatuses.includes(status)) {
-			return json({ error: 'Invalid status' }, { status: 400 });
-		}
+		console.log(status, payment_status, pickup_date, delivery_date);
 
 		const { data, error } = await locals.supabase
 			.from('orders')
-			.update({ status })
+			.update({
+				status: status,
+				payment_status: payment_status,
+				pickup_date: pickup_date,
+				delivery_date: delivery_date
+			})
 			.eq('id', orderId)
 			.select()
 			.single();
@@ -76,8 +70,35 @@ export const PATCH: RequestHandler = async ({ locals, params, request }) => {
 			console.error('Error updating order:', error);
 			return json({ error: 'Failed to update order' }, { status: 500 });
 		}
-
-		return json(data);
+		// const { status } = body;
+		//
+		// // Validate status
+		// const validStatuses = [
+		// 	'pending',
+		// 	'confirmed',
+		// 	'processing',
+		// 	'ready_for_delivery',
+		// 	'delivered',
+		// 	'cancelled'
+		// ];
+		// if (!validStatuses.includes(status)) {
+		// 	return json({ error: 'Invalid status' }, { status: 400 });
+		// }
+		//
+		// const { data, error } = await locals.supabase
+		// 	.from('orders')
+		// 	.update({ status })
+		// 	.eq('id', orderId)
+		// 	.select()
+		// 	.single();
+		//
+		// if (error) {
+		// 	console.error('Error updating order:', error);
+		// 	return json({ error: 'Failed to update order' }, { status: 500 });
+		// }
+		//
+		// return json(data);
+		return json(data || null);
 	} catch (err) {
 		console.error('Error parsing request body:', err);
 		return json({ error: 'Invalid request body' }, { status: 400 });

@@ -314,7 +314,7 @@
 {/snippet}
 
 {#snippet DataTableTotalAmount({ row }: { row: Row<Schema> })}
-	<div class="truncate text-left">
+	<div class="truncate px-1.5 text-left">
 		{toIndonesianCurrency(row.getValue('total_amount'))}
 	</div>
 {/snippet}
