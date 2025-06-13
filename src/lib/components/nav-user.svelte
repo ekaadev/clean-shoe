@@ -85,6 +85,10 @@
 						<UserCircleIcon />
 						Account
 					</DropdownMenu.Item>
+					<DropdownMenu.Item>
+						<LogoutIcon />
+						<a href="/">Back to services</a>
+					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onclick={logout}>
