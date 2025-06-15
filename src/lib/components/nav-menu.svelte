@@ -107,8 +107,10 @@
 							<DropdownMenu.Group>
 								<DropdownMenu.Item>
 									<UserCircleIcon />
-									My Account</DropdownMenu.Item
-								>
+									<Drawer.Close>
+										<a href="/profile">My Account</a>
+									</Drawer.Close>
+								</DropdownMenu.Item>
 								{#if page.data.profile && page.data.profile.role === 'admin'}
 									<DropdownMenu.Item>
 										<LogoutIcon />
@@ -175,8 +177,8 @@
 								<DropdownMenu.Group>
 									<DropdownMenu.Item>
 										<UserCircleIcon />
-										My Account</DropdownMenu.Item
-									>
+										<a href="/profile">My Account</a>
+									</DropdownMenu.Item>
 									{#if page.data.profile && page.data.profile.role === 'admin'}
 										<DropdownMenu.Item>
 											<LogoutIcon />
