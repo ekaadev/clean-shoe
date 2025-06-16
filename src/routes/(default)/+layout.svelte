@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Toaster } from '@/components/ui/sonner/index.js';
 	import NavMenu from '@/components/nav-menu.svelte';
 	import Footer from '@/components/footer.svelte';
 	const { children } = $props();
@@ -12,3 +13,4 @@
 	<!-- footer -->
 	<Footer />
 </div>
+<Toaster />
