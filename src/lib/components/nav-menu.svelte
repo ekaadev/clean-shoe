@@ -153,7 +153,7 @@
 					</NavigationMenu.List>
 				</NavigationMenu.Root>
 				<div class="flex flex-row items-center gap-2">
-					<Button onclick={toggleMode} variant="outline" size="icon">
+					<Button onclick={toggleMode} variant="outline" size="icon" class="cursor-pointer">
 						<SunIcon
 							class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
 						/>
@@ -165,7 +165,7 @@
 					{#if page.data.user && page.data.profile}
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger>
-								<Button variant="outline" size="icon" class="rounded-full">
+								<Button variant="outline" size="icon" class="cursor-pointer rounded-full">
 									{page.data.profile.name[0] || 'U'}
 								</Button>
 							</DropdownMenu.Trigger>
@@ -177,16 +177,19 @@
 								<DropdownMenu.Group>
 									<DropdownMenu.Item>
 										<UserCircleIcon />
-										<a href="/profile">My Account</a>
+										<a href="/profile" class="w-full">My Account</a>
 									</DropdownMenu.Item>
 									{#if page.data.profile && page.data.profile.role === 'admin'}
 										<DropdownMenu.Item>
 											<LogoutIcon />
-											<a href="/admin">Back to dashboard</a>
+											<a href="/admin" class="w-full">Back to dashboard</a>
 										</DropdownMenu.Item>
 									{/if}
 									<DropdownMenu.Separator />
-									<DropdownMenu.Item onclick={logout}>
+									<DropdownMenu.Item
+										onclick={logout}
+										class="cursor-pointer text-red-500 dark:text-red-400"
+									>
 										<LogoutIcon />
 										Logout</DropdownMenu.Item
 									>

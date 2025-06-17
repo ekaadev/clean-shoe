@@ -81,17 +81,17 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
-					<DropdownMenu.Item>
+					<DropdownMenu.Item class="w-full">
 						<UserCircleIcon />
-						Account
+						<a href="/profile" class="w-full">My Account</a>
 					</DropdownMenu.Item>
 					<DropdownMenu.Item>
 						<LogoutIcon />
-						<a href="/">Back to services</a>
+						<a href="/" class="w-full">Back to services</a>
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
-				<DropdownMenu.Item onclick={logout}>
+				<DropdownMenu.Item onclick={logout} class="tex-red-500 cursor-pointer dark:text-red-400">
 					<LogoutIcon />
 					Logout
 				</DropdownMenu.Item>
