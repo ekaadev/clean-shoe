@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BrandInstagram from '@tabler/icons-svelte/icons/brand-instagram';
 </script>
 
 <footer class="bg-background flex w-full flex-1 flex-col">
@@ -14,6 +15,13 @@
 					canvas, kulit, suede, hingga heels. Setiap pasang sepatu dirawat dengan teliti oleh tim
 					ahli kami, agar kembali bersih, bebas bau, dan siap tampil gaya.
 				</p>
+				<div>
+					<span>
+						<a href="/">
+							<BrandInstagram class="text-muted-foreground inline h-10 w-10" />
+						</a>
+					</span>
+				</div>
 			</div>
 			<div class="mt-8 flex flex-col items-start">
 				<ul class="flex flex-col gap-4 text-sm">
