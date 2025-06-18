@@ -57,7 +57,9 @@
 
 {#if isMobile.current}
 	<Drawer.Root direction="right">
-		<div class="flex flex-row items-center justify-between border-b p-4">
+		<div
+			class="bg-background sticky top-0 z-50 flex flex-row items-center justify-between border-b p-4"
+		>
 			<a href="/" class="block font-semibold">Clean Shoe</a>
 			<div class="flex flex-row items-center gap-2">
 				<Button onclick={toggleMode} variant="outline" size="icon">
