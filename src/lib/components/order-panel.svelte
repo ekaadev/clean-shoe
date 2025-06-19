@@ -1,34 +1,27 @@
 <script lang="ts">
 	import { toast } from "svelte-sonner";
+	import { CartHandler } from '$lib/handler/cart-handler';
 	import { goto } from '$app/navigation';
 	import { Button } from '@/components/ui/button/index';
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
 	import * as Drawer from "$lib/components/ui/drawer/index.js";
+	import { onMount } from 'svelte';
 
-	const { data } = $props();
+  const { data } = $props();
 
 	const isMobile = new IsMobile();
 
 	let qty = $state(1);
 
 	function addToCart() {
-		const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-		const existing = cart.find((item:any) => item.service_id === data.service.id);
-
-		if (existing) {
-			existing.qty += qty;
-			existing.total = existing.qty * data.service.price;
-		} else {
-			cart.push({
-				service_id: data.service.id,
-				service_name: data.service.name,
-				qty: qty,
-				price: data.service.price,
-				total: qty * data.service.price,
-			});
-		}
-
-		localStorage.setItem("cart", JSON.stringify(cart));
+		CartHandler.addItem({
+			service_id: data.service.id,
+			service_name: data.service.name,
+			price: data.service.price,
+			qty: qty, // dari state lokal OrderPanel
+			estimated_days: data.service.estimated_days
+		});
+	
 		toast.success("Berhasil ditambahkan ke keranjang!");
 	}
 
@@ -72,6 +65,7 @@
 									<span>{data.service.estimated_days} Hari</span>
 								</div>
 								<div class="flex justify-between">
+
 									<span>Biaya</span>
 									<span>Rp {data.service.price.toLocaleString()}</span>
 								</div>

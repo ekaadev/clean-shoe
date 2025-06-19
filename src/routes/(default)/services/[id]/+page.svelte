@@ -8,7 +8,7 @@
 	import { AspectRatio } from "$lib/components/ui/aspect-ratio/index";
 	import { toIndonesianCurrency } from '$lib/helper/currency';
 
-  import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
 
 	const isMobile = new IsMobile();
@@ -62,9 +62,6 @@
 		}
 	];
 
-  $inspect(data.service.id)
-  $inspect(other_services)
-
 </script>
 
 <svelte:head>
@@ -72,7 +69,6 @@
 </svelte:head>
 
 <Toaster position="top-right" expand={true} />
-
 {#if isMobile.current}
 	<div class="flex flex-1 flex-col min-h-screen justify-between">
 		<main class="flex-grow">
@@ -85,18 +81,18 @@
 
 				<!-- WRAPPER: Baris horizontal -->
 				<div class="flex flex-col md:flex-row md:min-h-[400px] gap-15 w-full">
-					
+
 					<!-- LEFT: Carousel + Info -->
 					<div class="flex flex-col gap-4 w-full md:w-2/3">
-						
+
 						<!-- Carousel Current Service -->
 						<div>
 							<div class="w-full">
 								<AspectRatio ratio={16 / 9}>
 									<img
-									src={data.service.image_url || "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"}
-									alt="{data.service.name}"
-									class="w-full object-cover aspect-[16/9] rounded-xl"
+										src={data.service.image_url || "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"}
+										alt="{data.service.name}"
+										class="w-full object-cover aspect-[16/9] rounded-xl"
 									/>
 								</AspectRatio>
 							</div>
@@ -166,13 +162,13 @@
 				</div>
 				
 			</div>
+		</main>
 
 		<!-- RIGHT: Order Panel -->
 		<div class="w-full max-w-xl max-h-xl md:w-1/3 flex justify-end items-center sticky bottom-0">
 			<OrderPanel {data} />
 		</div>
 	</div>
-
 
 <!-- WEB -->
 {:else}
@@ -208,6 +204,7 @@
 							</Carousel.Content>
 						</Carousel.Root>
 					</div>
+
 				</div>
 
 				<!-- RIGHT: Order Panel -->
@@ -255,41 +252,43 @@
 						{#each other_services as other_service, index}
 						<Carousel.Item class="md:basis-1/2 lg:basis-1/3">
 							<Card.Root class="@container/card cursor-pointer h-full flex flex-col">
-								<Card.Content class="">
-									<AspectRatio ratio={16 / 9}>
-										<img
-											src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
-											alt="Gray by Drew Beamer"
-											class="h-full w-full rounded-md object-cover"
-										/>
-									</AspectRatio>
-								</Card.Content>
+								<a href={`/services/${other_service.id}`} >
+									<Card.Content>
+										<AspectRatio ratio={16 / 9}>
+											<img
+												src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
+												alt="Gray by Drew Beamer"
+												class="h-full w-full rounded-md object-cover"
+											/>
+										</AspectRatio>
+									</Card.Content>
 
-								<Card.Footer class="flex flex-col justify-end flex-grow gap-2 p-6 text-sm">
-									<div class="flex flex-col gap-1 flex-grow">
-										<Card.Title class="text-lg font-semibold tabular-nums line-clamp-2">
-											{other_service.name}
-										</Card.Title>
+									<Card.Footer class="flex flex-col justify-end flex-grow gap-2 p-6 text-sm">
+										<div class="flex flex-col gap-1 flex-grow">
+											<Card.Title class="text-lg font-semibold tabular-nums line-clamp-2">
+												{other_service.name}
+											</Card.Title>
 
-										<Card.Description class="text-muted-foreground line-clamp-3 flex-grow">
-											{other_service.description}
-										</Card.Description>
-									</div>
+											<Card.Description class="text-muted-foreground line-clamp-3 flex-grow">
+												{other_service.description}
+											</Card.Description>
+										</div>
 
-									<!-- Footer info tetap di bawah -->
-									<div class="mt-2 flex w-full flex-row items-center justify-between md:mt-4">
-										<p class="text-muted-foreground text-sm font-semibold md:text-base">Estimated Days</p>
-										<p class=" text-sm font-semibold md:text-base">
-											{other_service.estimated_days} Days
-										</p>
-									</div>
-									<div class="flex w-full flex-row items-center justify-between">
-										<p class="text-muted-foreground text-sm font-semibold md:text-base">Price</p>
-										<p class="text-sm font-semibold md:text-base">
-											{toIndonesianCurrency(other_service.price)}
-										</p>
-									</div>
-								</Card.Footer>
+										<!-- Footer info tetap di bawah -->
+										<div class="mt-2 flex w-full flex-row items-center justify-between md:mt-4">
+											<p class="text-muted-foreground text-sm font-semibold md:text-base">Estimated Days</p>
+											<p class=" text-sm font-semibold md:text-base">
+												{other_service.estimated_days} Days
+											</p>
+										</div>
+										<div class="flex w-full flex-row items-center justify-between">
+											<p class="text-muted-foreground text-sm font-semibold md:text-base">Price</p>
+											<p class="text-sm font-semibold md:text-base">
+												{toIndonesianCurrency(other_service.price)}
+											</p>
+										</div>
+									</Card.Footer>
+								</a>
 							</Card.Root>
 						</Carousel.Item>
 						{/each}
