@@ -2,7 +2,7 @@
 	import BrandInstagram from '@tabler/icons-svelte/icons/brand-instagram';
 </script>
 
-<footer class="bg-background flex w-full flex-1 flex-col">
+<footer class="mt-10 flex w-full flex-1 flex-col bg-[#fafafa] lg:mt-20 dark:bg-[#141414]">
 	<div
 		class="container mx-auto flex flex-col items-center justify-between px-4 pt-16 pb-32 sm:px-6 sm:pt-24 lg:px-8 lg:pt-32"
 	>
