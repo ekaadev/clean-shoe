@@ -20,7 +20,7 @@
 				</p>
 			</div>
 		</div>
-		<Separator class="my-4" />
+		<Separator class="my-4 max-w-3xl" />
 		<!-- body profile -->
 		<BodyProfile {data} />
 	</div>
