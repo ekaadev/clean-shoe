@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { toast } from "svelte-sonner";
-	import { CartHandler } from '$lib/handler/cart-handler';
+	import { addItem } from '$lib/helper/cart-handler';
 	import { goto } from '$app/navigation';
-	import { Button } from '@/components/ui/button/index';
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
-	import * as Drawer from "$lib/components/ui/drawer/index.js";
+	import { Button } from '$lib/components/ui/button/index'
+	import * as Drawer from "$lib/components/ui/drawer/index";
+	import { refreshCart } from "$lib/stores/cart.store"
 	import { onMount } from 'svelte';
 
   const { data } = $props();
@@ -13,19 +14,8 @@
 
 	let qty = $state(1);
 
-	function addToCart() {
-		CartHandler.addItem({
-			service_id: data.service.id,
-			service_name: data.service.name,
-			price: data.service.price,
-			qty: qty, // dari state lokal OrderPanel
-			estimated_days: data.service.estimated_days
-		});
-	
-		toast.success("Berhasil ditambahkan ke keranjang!");
-	}
-
 </script>
+
 
 {#if isMobile.current}
 	<div class="px-4 py-6 border-t max-w-full space-y-4 shadow-sm fixed bottom-0 bg-background z-10 left-0 right-0">
@@ -89,15 +79,34 @@
 							class="flex-1 py-2 rounded-lg font-semibold"
 							variant="outline"
 							onclick={() => {
-								addToCart();
-								goto('/checkout');
+							addItem ({
+								service_id: data.service.id,
+								service_name: data.service.name,
+								price: data.service.price,
+								qty: qty, // dari state lokal OrderPanel
+								estimated_days: data.service.estimated_days
+							});
+							
+							qty = 1;
+							goto('/checkout');
 							}}>
 							Beli Sekarang
 						</Button>
 
 						<Button
 							class="flex-1 py-2 rounded-lg font-semibold"
-							onclick={addToCart}>
+							onclick={() => {
+							addItem ({
+								service_id: data.service.id,
+								service_name: data.service.name,
+								price: data.service.price,
+								qty: qty, // dari state lokal OrderPanel
+								estimated_days: data.service.estimated_days
+							});
+							
+							toast.success("Berhasil ditambahkan ke keranjang!");
+							qty = 1;
+							}}>
 							Masukkan keranjang
 						</Button>
 					</div>
@@ -142,7 +151,18 @@
 
 		<Button
 			class="w-full py-2 rounded-lg font-semibold"
-			onclick={addToCart}>
+			onclick={() => {
+			addItem ({
+				service_id: data.service.id,
+				service_name: data.service.name,
+				price: data.service.price,
+				qty: qty, // dari state lokal OrderPanel
+				estimated_days: data.service.estimated_days
+			});
+
+			toast.success("Berhasil ditambahkan ke keranjang!");
+			qty = 1;
+			}}>
 			Masukkan keranjang
 		</Button>
 
@@ -150,8 +170,17 @@
 			class="w-full py-2 rounded-lg font-semibold"
 			variant="outline"
 			onclick={() => {
-				addToCart();
-				goto('/checkout');
+				addItem ({
+				service_id: data.service.id,
+				service_name: data.service.name,
+				price: data.service.price,
+				qty: qty, // dari state lokal OrderPanel
+				estimated_days: data.service.estimated_days
+			});
+			
+			qty = 1;
+
+			goto('/checkout');
 			}}>
 			Beli Sekarang
 		</Button>

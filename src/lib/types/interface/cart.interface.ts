@@ -4,5 +4,5 @@ export interface CartItem {
   qty: number;
   price: number;
   total: number;
-  estimated_days: number;
+  estimated_days: string;
 }

@@ -64,11 +64,15 @@
 
 </script>
 
+
 <svelte:head>
 	<title>Orders</title>
 </svelte:head>
 
+
 <Toaster position="top-right" expand={true} />
+
+
 {#if isMobile.current}
 	<div class="flex flex-1 flex-col min-h-screen justify-between">
 		<main class="flex-grow">
@@ -76,7 +80,7 @@
 
 				<!-- Title Service -->
 				<div class="pt-5">
-					<span class="text-4xl font-semibold">{data.service.name}</span>
+					<h1 class="text-4xl font-semibold">{data.service.name}</h1>
 				</div>
 
 				<!-- WRAPPER: Baris horizontal -->
@@ -103,7 +107,7 @@
 				<!-- Deskripsi -->
 				<div class="justify-text max-w-5xl flex flex-col gap-4">
 					<div>
-						<h4 class="text-2xl font-semibold">Deskripsi</h4>
+						<h2 class="text-2xl font-semibold">Deskripsi</h2>
 					</div>
 					<div>
 						<p class="text-sm justify-text">
@@ -115,9 +119,9 @@
 				<!-- Accordion pertanyaan -->
 				<div class="max-w-full flex flex-col gap-4">
 					<div>
-						<span class="text-2xl font-semibold">FAQ</span>
+						<h2 class="text-2xl font-semibold">FAQ</h2>
 					</div>
-					<Accordion.Root type="single" class="w-full w-full" value="item-1">
+					<Accordion.Root type="single" class="w-full w-full">
 						{#each faqItems as item}
 							<Accordion.Item value={item.value}>
 								<Accordion.Trigger class="text-md sm:text-md">{item.title}</Accordion.Trigger>
@@ -132,7 +136,7 @@
 				<!-- Carousel services -->
 				<div class="flex flex-col">
 					<div>
-						<h4 class="text-3xl font-semibold">Other Services</h4>
+						<h2 class="text-2xl font-semibold">Other Services</h2>
 					</div>
 					<div class="w-full overflow-x-auto">
 						<div class="flex gap-2 w-max pb-6 pt-4">
@@ -170,6 +174,8 @@
 		</div>
 	</div>
 
+
+	
 <!-- WEB -->
 {:else}
 	<div class="flex flex-1 flex-col">
@@ -177,7 +183,7 @@
 
 			<!-- Title Service -->
 			<div class="pt-5">
-				<span class="text-5xl font-semibold">{data.service.name}</span>
+				<h1 class="text-5xl font-semibold">{data.service.name}</h1>
 			</div>
 
 			<!-- WRAPPER: Baris horizontal -->
@@ -216,10 +222,10 @@
 			<!-- Deskripsi -->
 			<div class="justify-text max-w-5xl flex flex-col gap-4">
 				<div>
-					<span class="text-3xl font-semibold">Deskripsi</span>
+					<h2 class="text-3xl font-semibold">Deskripsi</h2>
 				</div>
 				<div>
-					<p class="text-lg pr-4">
+					<p class="text-lg pr-4 max-w-4xl">
 						{data.service.description}
 					</p>
 				</div>
@@ -228,9 +234,9 @@
 			<!-- Accordion pertanyaan -->
 			<div class="max-w-[1000px] flex flex-col gap-4">
 				<div>
-					<span class="text-3xl font-semibold">FAQ</span>
+					<h2 class="text-3xl font-semibold">FAQ</h2>
 				</div>
-				<Accordion.Root type="single" class="w-full sm:max-w-[100%]" value="item-1">
+				<Accordion.Root type="single" class="w-full max-w-4xl">
 					{#each faqItems as item}
 						<Accordion.Item value={item.value}>
 							<Accordion.Trigger class="text-lg sm:text-xl">{item.title}</Accordion.Trigger>
@@ -245,7 +251,7 @@
 			<!-- Carousel services -->
 			<div class="flex flex-col gap-4">
 				<div>
-					<span class="text-3xl font-semibold">Other Services</span>
+					<h2 class="text-3xl font-semibold">Other Services</h2>
 				</div>
 				<Carousel.Root>
 					<Carousel.Content>
