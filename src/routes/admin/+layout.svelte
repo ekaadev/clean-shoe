@@ -19,4 +19,4 @@
 	</Sidebar.Inset>
 </Sidebar.Provider>
 
-<Toaster />
+<Toaster duration={2000} position="top-right" />

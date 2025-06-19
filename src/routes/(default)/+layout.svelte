@@ -13,4 +13,4 @@
 	<!-- footer -->
 	<Footer />
 </div>
-<Toaster />
+<Toaster position="top-right" duration={2000} />

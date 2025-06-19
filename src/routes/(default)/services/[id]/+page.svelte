@@ -66,8 +66,6 @@
 	<title>Orders</title>
 </svelte:head>
 
-<Toaster position="top-right" expand={true} />
-
 {#if isMobile.current}
 	<div class="flex min-h-screen flex-1 flex-col justify-between">
 		<main class="flex-grow">
