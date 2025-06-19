@@ -1,14 +1,14 @@
 <script lang="ts">
 	import * as Card from '@/components/ui/card/index';
-	import { Toaster } from "svelte-sonner"; 
+	import { Toaster } from 'svelte-sonner';
 	import OrderPanel from '@/components/order-panel.svelte';
-	import * as Accordion from "$lib/components/ui/accordion/index";
-	import * as Carousel from "$lib/components/ui/carousel/index";
+	import * as Accordion from '$lib/components/ui/accordion/index';
+	import * as Carousel from '$lib/components/ui/carousel/index';
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
-	import { AspectRatio } from "$lib/components/ui/aspect-ratio/index";
+	import { AspectRatio } from '$lib/components/ui/aspect-ratio/index';
 	import { toIndonesianCurrency } from '$lib/helper/currency';
 
-    import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
 
 	const isMobile = new IsMobile();
@@ -25,78 +25,71 @@
 	// FAQ DUMMY
 	const faqItems = [
 		{
-			value: "item-1",
-			title: "Cleaning Part",
+			value: 'item-1',
+			title: 'Cleaning Part',
 			content:
 				'Bagian sepatu yang dibersihkan dalam layanan ini meliputi: <strong>Upper Sole</strong>, <strong>Middle Sole</strong>, <strong>Out Sole</strong>, <strong>In Sole</strong>, dan <strong>Laces</strong>.'
 		},
 		{
-			value: "item-2",
-			title: "Shoe Material",
+			value: 'item-2',
+			title: 'Shoe Material',
 			content:
 				'Layanan cocok untuk berbagai jenis material sepatu seperti: <strong>Canvas, Suede, Leather, Nubuck</strong>, dan bahan lainnya.'
 		},
 		{
-			value: "item-3",
-			title: "On-site Availability",
+			value: 'item-3',
+			title: 'On-site Availability',
 			content:
 				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu.'
 		},
 		{
-			value: "item-4",
-			title: "Duration",
-			content:
-				'Estimasi pengerjaan adalah <strong>2 - 3 hari</strong> (tidak termasuk hari libur).'
+			value: 'item-4',
+			title: 'Duration',
+			content: 'Estimasi pengerjaan adalah <strong>2 - 3 hari</strong> (tidak termasuk hari libur).'
 		},
 		{
-			value: "item-5",
-			title: "Price",
+			value: 'item-5',
+			title: 'Price',
 			content:
 				'Harga layanan Deep Clean adalah sebesar <strong>Rp 30.000</strong> per pasang sepatu.'
 		},
 		{
-			value: "item-6",
-			title: "Pick Up & Delivery",
+			value: 'item-6',
+			title: 'Pick Up & Delivery',
 			content:
 				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur dan sekitarnya. Biaya tambahan mungkin berlaku untuk area tertentu.'
 		}
 	];
-
 </script>
-
 
 <svelte:head>
 	<title>Orders</title>
 </svelte:head>
 
-
 <Toaster position="top-right" expand={true} />
 
-
 {#if isMobile.current}
-	<div class="flex flex-1 flex-col min-h-screen justify-between">
+	<div class="flex min-h-screen flex-1 flex-col justify-between">
 		<main class="flex-grow">
-			<div class="py-6 container mx-auto flex px-4 flex-1 flex-col gap-10">
-
+			<div class="container mx-auto flex flex-1 flex-col gap-10 px-4 py-6">
 				<!-- Title Service -->
 				<div class="pt-5">
 					<h1 class="text-4xl font-semibold">{data.service.name}</h1>
 				</div>
 
 				<!-- WRAPPER: Baris horizontal -->
-				<div class="flex flex-col md:flex-row md:min-h-[400px] gap-15 w-full">
-
+				<div class="flex w-full flex-col gap-15 md:min-h-[400px] md:flex-row">
 					<!-- LEFT: Carousel + Info -->
-					<div class="flex flex-col gap-4 w-full md:w-2/3">
-
+					<div class="flex w-full flex-col gap-4 md:w-2/3">
 						<!-- Carousel Current Service -->
 						<div>
 							<div class="w-full">
 								<AspectRatio ratio={16 / 9}>
 									<img
-										src={data.service.image_url || "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"}
-										alt="{data.service.name}"
-										class="w-full object-cover aspect-[16/9] rounded-xl"
+										src={data.service.image_url ||
+											'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'}
+										alt={data.service.name}
+										class="aspect-[16/9] w-full rounded-xl object-cover"
 									/>
 								</AspectRatio>
 							</div>
@@ -105,27 +98,27 @@
 				</div>
 
 				<!-- Deskripsi -->
-				<div class="justify-text max-w-5xl flex flex-col gap-4">
+				<div class="justify-text flex max-w-5xl flex-col gap-4">
 					<div>
 						<h2 class="text-2xl font-semibold">Deskripsi</h2>
 					</div>
 					<div>
-						<p class="text-sm justify-text">
+						<p class="justify-text text-sm">
 							{data.service.description}
 						</p>
 					</div>
 				</div>
 
 				<!-- Accordion pertanyaan -->
-				<div class="max-w-full flex flex-col gap-4">
+				<div class="flex max-w-full flex-col gap-4">
 					<div>
 						<h2 class="text-2xl font-semibold">FAQ</h2>
 					</div>
-					<Accordion.Root type="single" class="w-full w-full">
+					<Accordion.Root type="single" class="w-full">
 						{#each faqItems as item}
 							<Accordion.Item value={item.value}>
 								<Accordion.Trigger class="text-md sm:text-md">{item.title}</Accordion.Trigger>
-								<Accordion.Content class="flex flex-col gap-4 text-md">
+								<Accordion.Content class="text-md flex flex-col gap-4">
 									{@html `<p class="text-sm">${item.content}</p>`}
 								</Accordion.Content>
 							</Accordion.Item>
@@ -133,76 +126,99 @@
 					</Accordion.Root>
 				</div>
 
-				<!-- Carousel services -->
-				<div class="flex flex-col">
+				<!-- Other Services -->
+				<div class="flex flex-col gap-4">
 					<div>
 						<h2 class="text-2xl font-semibold">Other Services</h2>
 					</div>
 					<div class="w-full overflow-x-auto">
-						<div class="flex gap-2 w-max pb-6 pt-4">
-							{#each other_services as services}
-								<a href={`/services/${services.id}`}>
-									<div class="flex-shrink-0 w-[160px] bg-muted p-3 rounded-2xl">
-
+						<div class="flex w-max gap-3 pt-4 pb-6">
+							{#each other_services as service}
+								<a href={`/services/${service.id}`}>
+									<Card.Root
+										class="@container/card flex h-full w-[200px] flex-shrink-0 cursor-pointer flex-col"
+									>
 										<!-- Gambar -->
-										<img 
-											src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
-											alt="Gambar layanan"
-											class="rounded-md aspect-square object-cover w-full mb-2"
-										/>
+										<Card.Content class="p-3">
+											<AspectRatio ratio={16 / 9}>
+												<img
+													src={service.image_url ||
+														'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'}
+													alt={service.name}
+													class="h-full w-full rounded-md object-cover"
+												/>
+											</AspectRatio>
+										</Card.Content>
 
-										<!-- Teks -->
-										<div class="text-sm leading-tight space-y-1">
-											<p class="font-semibold line-clamp-2">{services.name}</p>
-											<p class="text-muted-foreground line-clamp-2">{services.description}</p>
-											<p class="text-xs">{toIndonesianCurrency(services.price)}</p>
-										</div>
-									</div>
+										<Card.Footer class="flex flex-grow flex-col justify-end gap-2 p-3 text-sm">
+											<div class="flex flex-grow flex-col gap-1">
+												<Card.Title class="line-clamp-2 text-sm font-semibold">
+													{service.name}
+												</Card.Title>
+
+												<Card.Description
+													class="text-muted-foreground line-clamp-2 flex-grow text-xs"
+												>
+													{service.description}
+												</Card.Description>
+											</div>
+
+											<!-- Footer info tetap di bawah -->
+											<div class="mt-2 flex w-full flex-col gap-1">
+												<div class="flex flex-row items-center justify-between">
+													<p class="text-muted-foreground text-xs">Estimated Days</p>
+													<p class="text-xs font-semibold">
+														{service.estimated_days} Days
+													</p>
+												</div>
+												<div class="flex flex-row items-center justify-between">
+													<p class="text-muted-foreground text-xs">Price</p>
+													<p class="text-xs font-semibold">
+														{toIndonesianCurrency(service.price)}
+													</p>
+												</div>
+											</div>
+										</Card.Footer>
+									</Card.Root>
 								</a>
 							{/each}
 						</div>
 					</div>
-
 				</div>
-				
 			</div>
 		</main>
 
 		<!-- RIGHT: Order Panel -->
-		<div class="w-full max-w-xl max-h-xl md:w-1/3 flex justify-end items-center sticky bottom-0">
+		<div class="max-h-xl sticky bottom-0 flex w-full max-w-xl items-center justify-end md:w-1/3">
 			<OrderPanel {data} />
 		</div>
 	</div>
 
-
-	
-<!-- WEB -->
+	<!-- WEB -->
 {:else}
 	<div class="flex flex-1 flex-col">
-		<div class="py-5 container mx-auto flex flex-1 flex-col gap-10 px-4 md:px-8">
-
+		<div class="container mx-auto flex flex-1 flex-col gap-10 px-4 py-5 md:px-8">
 			<!-- Title Service -->
 			<div class="pt-5">
 				<h1 class="text-5xl font-semibold">{data.service.name}</h1>
 			</div>
 
 			<!-- WRAPPER: Baris horizontal -->
-			<div class="flex flex-col md:flex-row md:min-h-[400px] gap-15 w-full">
-				
+			<div class="flex w-full flex-col gap-15 md:min-h-[400px] md:flex-row">
 				<!-- LEFT: Carousel + Info -->
-				<div class="flex flex-col gap-4 w-full md:w-2/3">
-					
+				<div class="flex w-full flex-col gap-4 md:w-2/3">
 					<!-- Carousel Current Service -->
 					<div>
 						<Carousel.Root class="w-full max-w-400">
 							<Carousel.Content>
 								<Carousel.Item class="basis-full">
 									<div class="max-w-[100%]">
-										<AspectRatio ratio={16 / 9} class="bg-muted">
+										<AspectRatio ratio={16 / 9}>
 											<img
-											src={data.service.image_url || "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"}
-											alt="{data.service.name}"
-											class="w-full object-cover aspect-[16/9] rounded-xl"
+												src={data.service.image_url ||
+													'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'}
+												alt={data.service.name}
+												class="aspect-[16/9] w-full rounded-xl object-cover"
 											/>
 										</AspectRatio>
 									</div>
@@ -210,29 +226,28 @@
 							</Carousel.Content>
 						</Carousel.Root>
 					</div>
-
 				</div>
 
 				<!-- RIGHT: Order Panel -->
-				<div class="w-full max-w-xl h-fit md:w-1/3 flex justify-end">
+				<div class="flex h-fit w-full max-w-xl justify-end md:w-1/3">
 					<OrderPanel {data} />
 				</div>
 			</div>
 
 			<!-- Deskripsi -->
-			<div class="justify-text max-w-5xl flex flex-col gap-4">
+			<div class="justify-text flex max-w-5xl flex-col gap-4">
 				<div>
 					<h2 class="text-3xl font-semibold">Deskripsi</h2>
 				</div>
 				<div>
-					<p class="text-lg pr-4 max-w-4xl">
+					<p class="max-w-4xl pr-4 text-lg">
 						{data.service.description}
 					</p>
 				</div>
 			</div>
 
 			<!-- Accordion pertanyaan -->
-			<div class="max-w-[1000px] flex flex-col gap-4">
+			<div class="flex max-w-[1000px] flex-col gap-4">
 				<div>
 					<h2 class="text-3xl font-semibold">FAQ</h2>
 				</div>
@@ -248,60 +263,63 @@
 				</Accordion.Root>
 			</div>
 
-			<!-- Carousel services -->
+			<!-- Other Services -->
 			<div class="flex flex-col gap-4">
 				<div>
 					<h2 class="text-3xl font-semibold">Other Services</h2>
 				</div>
-				<Carousel.Root>
-					<Carousel.Content>
-						{#each other_services as other_service, index}
-						<Carousel.Item class="md:basis-1/2 lg:basis-1/3">
-							<Card.Root class="@container/card cursor-pointer h-full flex flex-col">
-								<a href={`/services/${other_service.id}`} >
-									<Card.Content>
+				<div class="w-full overflow-x-auto">
+					<div class="flex w-max gap-4 pt-4 pb-6">
+						{#each other_services as service}
+							<a href={`/services/${service.id}`}>
+								<Card.Root
+									class="@container/card flex h-full w-[280px] flex-shrink-0 cursor-pointer flex-col"
+								>
+									<!-- Gambar -->
+									<Card.Content class="p-4">
 										<AspectRatio ratio={16 / 9}>
 											<img
-												src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
-												alt="Gray by Drew Beamer"
+												src={service.image_url ||
+													'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'}
+												alt={service.name}
 												class="h-full w-full rounded-md object-cover"
 											/>
 										</AspectRatio>
 									</Card.Content>
 
-									<Card.Footer class="flex flex-col justify-end flex-grow gap-2 p-6 text-sm">
-										<div class="flex flex-col gap-1 flex-grow">
-											<Card.Title class="text-lg font-semibold tabular-nums line-clamp-2">
-												{other_service.name}
+									<Card.Footer class="flex flex-grow flex-col justify-end gap-2 p-4 text-sm">
+										<div class="flex flex-grow flex-col gap-1">
+											<Card.Title class="line-clamp-2 text-lg font-semibold">
+												{service.name}
 											</Card.Title>
 
 											<Card.Description class="text-muted-foreground line-clamp-3 flex-grow">
-												{other_service.description}
+												{service.description}
 											</Card.Description>
 										</div>
 
 										<!-- Footer info tetap di bawah -->
-										<div class="mt-2 flex w-full flex-row items-center justify-between md:mt-4">
-											<p class="text-muted-foreground text-sm font-semibold md:text-base">Estimated Days</p>
-											<p class=" text-sm font-semibold md:text-base">
-												{other_service.estimated_days} Days
-											</p>
-										</div>
-										<div class="flex w-full flex-row items-center justify-between">
-											<p class="text-muted-foreground text-sm font-semibold md:text-base">Price</p>
-											<p class="text-sm font-semibold md:text-base">
-												{toIndonesianCurrency(other_service.price)}
-											</p>
+										<div class="mt-2 flex w-full flex-col gap-2">
+											<div class="flex flex-row items-center justify-between">
+												<p class="text-muted-foreground text-sm font-semibold">Estimated Days</p>
+												<p class="text-sm font-semibold">
+													{service.estimated_days} Days
+												</p>
+											</div>
+											<div class="flex flex-row items-center justify-between">
+												<p class="text-muted-foreground text-sm font-semibold">Price</p>
+												<p class="text-sm font-semibold">
+													{toIndonesianCurrency(service.price)}
+												</p>
+											</div>
 										</div>
 									</Card.Footer>
-								</a>
-							</Card.Root>
-						</Carousel.Item>
+								</Card.Root>
+							</a>
 						{/each}
-					</Carousel.Content>
-				</Carousel.Root>
+					</div>
+				</div>
 			</div>
-
 		</div>
 	</div>
 {/if}
