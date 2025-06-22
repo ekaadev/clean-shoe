@@ -32,6 +32,7 @@
 								{...props}
 								bind:value={$formData.id}
 								placeholder="Place your invoice number here."
+								required
 							/>
 						{/snippet}
 					</Form.Control>
