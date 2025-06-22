@@ -6,7 +6,6 @@
 	import Moneybag from '@tabler/icons-svelte/icons/moneybag';
 	import Package from '@tabler/icons-svelte/icons/package';
 	import User from '@tabler/icons-svelte/icons/user';
-	import PackageImport from '@tabler/icons-svelte/icons/package-import';
 </script>
 
 <div
