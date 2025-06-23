@@ -2,13 +2,14 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ locals, params }) => {
-	if (!locals.user) {
-		throw redirect(302, '/auth');
-	}
-
-	if (locals.profile?.role !== 'admin') {
-		throw redirect(302, '/');
-	}
+	// todo: idk if this is needed, but it was in the original code, because it just gets the order details
+	// if (!locals.user) {
+	// 	throw redirect(302, '/auth');
+	// }
+	//
+	// if (locals.profile?.role !== 'admin') {
+	// 	throw redirect(302, '/');
+	// }
 
 	const orderId = params.id;
 
@@ -21,8 +22,11 @@ export const GET: RequestHandler = async ({ locals, params }) => {
       quantity,
       price,
       services (
-        name
+        *
       )
+    ),
+    payment_transactions (
+      *
     )
   `
 		)

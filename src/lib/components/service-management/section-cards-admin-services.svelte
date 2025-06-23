@@ -141,13 +141,13 @@
 						</Card.Description>
 						<div class="mt-2 flex w-full flex-row items-center justify-between md:mt-4">
 							<p class="text-muted-foreground text-sm font-semibold md:text-base">Estimated Days</p>
-							<p class=" text-sm font-semibold text-white md:text-base">
+							<p class=" text-sm font-semibold md:text-base">
 								{service.estimated_days} Days
 							</p>
 						</div>
 						<div class="flex w-full flex-row items-center justify-between">
 							<p class="text-muted-foreground text-sm font-semibold md:text-base">Price</p>
-							<p class="text-sm font-semibold text-white md:text-base">
+							<p class="text-sm font-semibold md:text-base">
 								{toIndonesianCurrency(service.price)}
 							</p>
 						</div>

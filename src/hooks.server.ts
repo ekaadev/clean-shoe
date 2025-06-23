@@ -62,10 +62,10 @@ const supabase: Handle = async ({ event, resolve }) => {
 			if (user) {
 				event.locals.profile = {
 					id: users.id,
-					name: users.name,
+					name: users.name || '',
 					email: users.email,
-					phone_number: users.phone_number,
-					address: users.address,
+					phone_number: users.phone_number || '',
+					address: users.address || '',
 					role: users.role
 				};
 			}
