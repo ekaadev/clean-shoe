@@ -10,10 +10,13 @@
 	import CloseIcon from '@lucide/svelte/icons/x';
 	import LogoutIcon from '@tabler/icons-svelte/icons/logout';
 	import UserCircleIcon from '@tabler/icons-svelte/icons/user-circle';
+	import ShoppingCartIcon from '@lucide/svelte/icons/shopping-cart';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
+
+	import { cartItemCount } from '$lib/helper/cart-handler';
 
 	const menu: { title: string; href: string }[] = [
 		{
@@ -69,8 +72,18 @@
 					<MoonIcon
 						class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
 					/>
-					<span class="sr-only">Toggle theme</span>
 				</Button>
+
+				<a href="/checkout" class="relative">
+					<Button variant="outline" size="icon"><ShoppingCartIcon class="h-5 w-5" /></Button>
+					{#if $cartItemCount > 0}
+						<span
+							class="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-xs"
+							>{$cartItemCount}</span
+						>
+					{/if}
+				</a>
+
 				<Drawer.Trigger class="flex items-center justify-center">
 					<Button variant="outline" size="icon"><AlignRightIcon class="h-5 w-5" /></Button>
 				</Drawer.Trigger>
@@ -79,7 +92,7 @@
 		<Drawer.Content>
 			<Drawer.Header class="flex flex-row items-start justify-between">
 				<div class="flex w-full flex-col gap-2 px-4 py-1">
-					{#each menu as item, index}
+					{#each menu as item}
 						<Drawer.Close class="block text-start font-semibold">
 							<a href={item.href}>{item.title}</a>
 						</Drawer.Close>
@@ -102,7 +115,7 @@
 							</div>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content
-							class="w-(--bits-dropdown-menu-anchor-width) min-w-42 rounded-lg"
+							class="w-[--radix-dropdown-menu-content-available-width]"
 							align="end"
 							sideOffset={4}
 						>
@@ -140,14 +153,14 @@
 			<NavigationMenu.Root>
 				<NavigationMenu.List>
 					<NavigationMenu.Item>
-						<a href="/" class=" font-semibold">Clean Shoe</a>
+						<a href="/" class="font-semibold">Clean Shoe</a>
 					</NavigationMenu.Item>
 				</NavigationMenu.List>
 			</NavigationMenu.Root>
 			<div class="flex flex-row items-center gap-6">
 				<NavigationMenu.Root>
 					<NavigationMenu.List>
-						{#each menu as item, index}
+						{#each menu as item}
 							<NavigationMenu.Item>
 								<NavigationMenu.Link href={item.href}>{item.title}</NavigationMenu.Link>
 							</NavigationMenu.Item>
@@ -155,6 +168,16 @@
 					</NavigationMenu.List>
 				</NavigationMenu.Root>
 				<div class="flex flex-row items-center gap-2">
+					<a href="/checkout" class="relative">
+						<Button variant="outline" size="icon"><ShoppingCartIcon class="h-5 w-5" /></Button>
+						{#if $cartItemCount > 0}
+							<span
+								class="bg-primary text-primary-foreground absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs"
+								>{$cartItemCount}</span
+							>
+						{/if}
+					</a>
+
 					<Button onclick={toggleMode} variant="outline" size="icon" class="cursor-pointer">
 						<SunIcon
 							class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
@@ -164,6 +187,7 @@
 						/>
 						<span class="sr-only">Toggle theme</span>
 					</Button>
+
 					{#if page.data.user && page.data.profile}
 						<DropdownMenu.Root>
 							<DropdownMenu.Trigger>
@@ -172,7 +196,7 @@
 								</Button>
 							</DropdownMenu.Trigger>
 							<DropdownMenu.Content
-								class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
+								class="w-56 min-w-[var(--radix-dropdown-menu-trigger-width)] rounded-lg"
 								align="end"
 								sideOffset={4}
 							>
