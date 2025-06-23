@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
-	import { addItem } from '$lib/helper/cart-handler';
+	import { cart } from '$lib/helper/cart-handler';
 	import { goto } from '$app/navigation';
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
 	import { Button } from '$lib/components/ui/button/index';
 	import * as Drawer from '$lib/components/ui/drawer/index';
-	import { refreshCart } from '$lib/stores/cart.store';
-	import { onMount } from 'svelte';
 
 	const { data } = $props();
 
@@ -76,14 +74,13 @@
 							class="flex-1 rounded-lg py-2 font-semibold"
 							variant="outline"
 							onclick={() => {
-								addItem({
+								cart.addItem({
 									service_id: data.service.id,
 									service_name: data.service.name,
 									price: data.service.price,
-									qty: qty, // dari state lokal OrderPanel
+									qty: qty,
 									estimated_days: data.service.estimated_days
 								});
-
 								qty = 1;
 								goto('/checkout');
 							}}
@@ -94,14 +91,14 @@
 						<Button
 							class="flex-1 rounded-lg py-2 font-semibold"
 							onclick={() => {
-								addItem({
+								// [DIUBAH]: Memanggil method dari store
+								cart.addItem({
 									service_id: data.service.id,
 									service_name: data.service.name,
 									price: data.service.price,
-									qty: qty, // dari state lokal OrderPanel
+									qty: qty,
 									estimated_days: data.service.estimated_days
 								});
-
 								toast.success('Berhasil ditambahkan ke keranjang!');
 								qty = 1;
 							}}
@@ -148,14 +145,14 @@
 		<Button
 			class="w-full rounded-lg py-2 font-semibold"
 			onclick={() => {
-				addItem({
+				// [DIUBAH]: Memanggil method dari store
+				cart.addItem({
 					service_id: data.service.id,
 					service_name: data.service.name,
 					price: data.service.price,
-					qty: qty, // dari state lokal OrderPanel
+					qty: qty,
 					estimated_days: data.service.estimated_days
 				});
-
 				toast.success('Berhasil ditambahkan ke keranjang!');
 				qty = 1;
 			}}
@@ -167,16 +164,15 @@
 			class="w-full rounded-lg py-2 font-semibold"
 			variant="outline"
 			onclick={() => {
-				addItem({
+				// [DIUBAH]: Memanggil method dari store
+				cart.addItem({
 					service_id: data.service.id,
 					service_name: data.service.name,
 					price: data.service.price,
-					qty: qty, // dari state lokal OrderPanel
+					qty: qty,
 					estimated_days: data.service.estimated_days
 				});
-
 				qty = 1;
-
 				goto('/checkout');
 			}}
 		>

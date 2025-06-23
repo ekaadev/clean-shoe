@@ -1,82 +1,102 @@
+import { writable, derived } from 'svelte/store';
+import { browser } from '$app/environment';
 import type { CartItem } from '$lib/types/interface/cart.interface';
 
 const storageKey = 'cart';
 
-// Ambil data keranjang terbaru dari localStorage
-export function getCart() {
-	if (typeof localStorage === 'undefined') return [];
-	return JSON.parse(localStorage.getItem(storageKey) || '[]') as CartItem[];
+// 1. Fungsi utama untuk membuat store keranjang kita
+function createCartStore() {
+	// Ambil data awal dari localStorage jika ada di browser, jika tidak, array kosong.
+	const initialValue: CartItem[] = browser
+		? JSON.parse(localStorage.getItem(storageKey) || '[]')
+		: [];
+
+	// 2. Buat 'writable' store sebagai inti dari state kita
+	const cart = writable<CartItem[]>(initialValue);
+
+	// 3. Gunakan `subscribe` untuk menyimpan perubahan ke localStorage secara otomatis
+	cart.subscribe((items) => {
+		if (browser) {
+			localStorage.setItem(storageKey, JSON.stringify(items));
+		}
+	});
+
+	// 4. Kembalikan store beserta method-method untuk memanipulasinya.
+	//    Logika di dalamnya sama persis dengan helper Anda, tetapi sekarang menggunakan `update`.
+	return {
+		subscribe: cart.subscribe, // Wajib ada agar bisa dianggap sebagai store
+		set: cart.set, // Berguna untuk me-reset atau mengganti seluruh keranjang
+
+		addItem: (item: Omit<CartItem, 'total'> & { qty?: number }) => {
+			cart.update((currentCart) => {
+				const qty = item.qty ?? 1;
+				const existing = currentCart.find((i) => i.service_id === item.service_id);
+
+				if (existing) {
+					existing.qty += qty;
+					existing.total = existing.qty * existing.price;
+				} else {
+					currentCart.push({
+						service_id: item.service_id,
+						service_name: item.service_name,
+						qty: qty,
+						price: item.price,
+						total: qty * item.price,
+						estimated_days: item.estimated_days
+					});
+				}
+				return currentCart;
+			});
+		},
+
+		removeItem: (service_id: number) => {
+			cart.update((currentCart) => currentCart.filter((i) => i.service_id !== service_id));
+		},
+
+		increaseQuantity: (service_id: number) => {
+			cart.update((currentCart) => {
+				const item = currentCart.find((i) => i.service_id === service_id);
+				if (item) {
+					item.qty++;
+					item.total = item.qty * item.price;
+				}
+				return currentCart;
+			});
+		},
+
+		decreaseQuantity: (service_id: number) => {
+			cart.update((currentCart) => {
+				const itemIndex = currentCart.findIndex((i) => i.service_id === service_id);
+				if (itemIndex === -1) return currentCart;
+
+				const item = currentCart[itemIndex];
+				item.qty--;
+				item.total = item.qty * item.price;
+
+				// Jika kuantitas 0 atau kurang, hapus item dari array
+				if (item.qty < 1) {
+					currentCart.splice(itemIndex, 1);
+				}
+
+				return currentCart;
+			});
+		},
+
+		clearCart: () => {
+			cart.set([]);
+		}
+	};
 }
 
-// Simpan keranjang terbaru ke localStorage
-export function saveCart(cart: CartItem[]) {
-	if (typeof localStorage !== 'undefined') {
-		localStorage.setItem(storageKey, JSON.stringify(cart));
-	}
-}
+// 5. Buat dan ekspor satu instance dari store keranjang
+export const cart = createCartStore();
 
-// ORDER PANEL: Tambah item ke keranjang atau update qty jika sudah ada
-export function addItem(item: Omit<CartItem, 'total'> & { qty?: number }) {
-	const cart = getCart();
-	const existing = cart.find((c: CartItem) => c.service_id === item.service_id);
-	const qty = item.qty ?? 1;
+// 6. Buat dan ekspor store turunan (derived stores) untuk kemudahan
+export const cartItemCount = derived(cart, ($cart) => {
+	// Menjumlahkan semua 'qty' dari setiap item di keranjang
+	return $cart.reduce((sum, item) => sum + item.qty, 0);
+});
 
-	if (existing) {
-		existing.qty += qty;
-		existing.total = existing.qty * existing.price;
-	} else {
-		cart.push({
-			service_id: item.service_id,
-			service_name: item.service_name,
-			qty: qty,
-			price: item.price,
-			total: qty * item.price,
-			estimated_days: item.estimated_days
-		});
-	}
-
-	// Save cart after either updating existing item or adding new item
-	saveCart(cart);
-}
-
-// CHECKOUT PANEL: Tambah qty hanya untuk item tertentu
-export function increaseQuantity(service_id: number) {
-	const cart = getCart();
-	const item = cart.find((c: CartItem) => c.service_id === service_id);
-	if (!item) return;
-	item.qty += 1;
-	item.total = item.qty * item.price;
-	saveCart(cart);
-}
-
-// CHECKOUT PANEL: Kurangi qty, hapus jika qty < 1
-export function decreaseQuantity(service_id: number) {
-	const cart = getCart();
-	const item = cart.find((c: CartItem) => c.service_id === service_id);
-	if (!item) return;
-
-	item.qty -= 1;
-	if (item.qty < 1) {
-		removeItem(service_id);
-	} else {
-		item.total = item.qty * item.price;
-		saveCart(cart);
-	}
-}
-
-// Hapus item berdasarkan service_id
-export function removeItem(service_id: number) {
-	let cart = getCart();
-	cart = cart.filter((c: CartItem) => c.service_id !== service_id);
-	saveCart(cart);
-}
-
-// Total harga keranjang
-export function getTotal(): number {
-	return getCart().reduce((sum, item) => sum + item.total, 0);
-}
-
-// Cek apakah item tertentu ada di keranjang (untuk UI conditional)
-export function hasItem(service_id: number): boolean {
-	return getCart().some((c: CartItem) => c.service_id === service_id);
-}
+export const cartTotal = derived(cart, ($cart) => {
+	return $cart.reduce((sum, item) => sum + item.total, 0);
+});
