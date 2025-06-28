@@ -19,6 +19,6 @@
 	});
 </script>
 
-<ModeWatcher />
+<ModeWatcher defaultMode="dark" />
 <Toaster richColors position="top-right" />
 {@render children()}
