@@ -26,6 +26,14 @@ declare global {
 			session: Session | null;
 		}
 
+		interface Error {
+			message: string;
+		}
+
+		interface ActionData {
+			message?: string;
+		}
+
 		// interface PageState {}
 		// interface Platform {}
 	}
