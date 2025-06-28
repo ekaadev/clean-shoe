@@ -46,7 +46,9 @@
 				<div class="flex flex-col gap-6">
 					<div class="flex flex-col items-center text-center">
 						<h1 class="text-2xl font-bold">Welcome back</h1>
-						<p class="text-muted-foreground text-balance">Login to your Clean Shoe account</p>
+						<p class="text-muted-foreground text-balance">
+							Simplify your authentication process with one click.
+						</p>
 					</div>
 					<div class="grid gap-3">
 						<Label for="email">Email</Label>
@@ -63,7 +65,7 @@
 						<div class="flex items-center">
 							<Label for="password">Password</Label>
 							<a
-								href="##"
+								href="/auth/password_reset"
 								class="text-muted-foreground ml-auto text-sm underline-offset-2 hover:underline"
 							>
 								Forgot your password?
