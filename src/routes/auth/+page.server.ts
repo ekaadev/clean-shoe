@@ -1,4 +1,5 @@
 import { type Actions, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	signup: async ({ request, locals: { supabase } }) => {
@@ -9,7 +10,11 @@ export const actions: Actions = {
 		const { error } = await supabase.auth.signUp({ email, password });
 		if (error) {
 			console.error(error);
-			redirect(303, '/auth/error');
+			return fail(400, {
+				error: true,
+				message: error.message,
+				type: 'signup'
+			});
 		} else {
 			redirect(303, '/');
 		}
@@ -22,9 +27,13 @@ export const actions: Actions = {
 		const { error } = await supabase.auth.signInWithPassword({ email, password });
 		if (error) {
 			console.error(error);
-			redirect(303, '/auth/error');
+			return fail(400, {
+				error: true,
+				message: error.message,
+				type: 'login'
+			});
 		} else {
-			redirect(303, '/private');
+			redirect(303, '/');
 		}
 	}
 };
