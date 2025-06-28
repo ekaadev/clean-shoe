@@ -15,29 +15,33 @@
 	<title>Checkout</title>
 </svelte:head>
 
-<div class="flex flex-col px-2 py-5 md:grid md:grid-cols-3 md:gap-x-12 md:px-8 md:pb-0">
-	<div class="order-2 p-3 md:col-span-1 md:p-0 lg:p-6 lg:pt-8">
-		<div class="md:sticky md:top-24">
-			<OrderSummary />
-		</div>
-	</div>
+<div class="flex flex-1 flex-col">
+	<div class="container mx-auto flex flex-1 flex-col px-4 md:px-8">
+		<div class="flex flex-col px-2 py-5 md:grid md:grid-cols-3 md:gap-x-12 md:px-8 md:pb-0">
+			<div class="order-2 p-3 md:col-span-1 md:p-0 lg:p-6 lg:pt-8">
+				<div class="md:sticky md:top-24">
+					<OrderSummary />
+				</div>
+			</div>
 
-	<div class=" order-1 p-4 pt-5 md:col-span-2 md:p-6">
-		<div>
-			<h1 class="pb-6 text-4xl font-semibold md:pb-8 md:text-5xl">Checkout</h1>
-			<FormCheckout {data} />
+			<div class=" order-1 p-4 pt-5 md:col-span-2 md:p-6">
+				<div>
+					<h1 class="pb-6 text-4xl font-semibold md:pb-8 md:text-5xl">Checkout</h1>
+					<FormCheckout {data} />
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
 
-<div class="bg-background fixed right-0 bottom-0 left-0 z-10 border-t p-4 md:hidden">
-	<div class="flex gap-4 sm:flex-row sm:justify-end">
-		<button
-			type="submit"
-			form="form-checkout"
-			class="bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
-		>
-			Bayar Sekarang
-		</button>
+		<div class="bg-background fixed right-0 bottom-0 left-0 z-10 border-t p-4 md:hidden">
+			<div class="flex gap-4 sm:flex-row sm:justify-end">
+				<button
+					type="submit"
+					form="form-checkout"
+					class="bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+				>
+					Bayar Sekarang
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
