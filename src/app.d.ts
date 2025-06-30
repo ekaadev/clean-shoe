@@ -27,6 +27,7 @@ declare global {
 		}
 
 		interface Error {
+			status: number;
 			message: string;
 		}
 
