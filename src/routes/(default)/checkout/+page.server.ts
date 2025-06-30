@@ -36,6 +36,7 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	default: async ({ request, locals, fetch }) => {
+		console.log('Processing order submission...');
 		// First, get the form data to extract cart data before superValidate consumes the body
 		const formData = await request.formData();
 		const cartDataString = formData.get('cartData') as string;
@@ -87,7 +88,7 @@ export const actions: Actions = {
 				phone_number: orderData.customer.contact,
 				email: orderData.customer.email,
 				total_amount: cartData.reduce((total: number, item: CartItem) => total + item.total, 0),
-				pickup_address: orderData.delivery.pickupAddress,
+				pickup_address: orderData.delivery.pickupAddress || '',
 				delivery_address: orderData.delivery.deliveryAddress,
 				pickup_date: orderData.delivery.pickupDate,
 				notes: orderData.notes || ''
