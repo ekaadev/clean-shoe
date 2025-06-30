@@ -1,3 +1,4 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
@@ -6,11 +7,13 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	const response = await fetch(`/api/orders/${id}`);
 	if (!response.ok) {
 		console.error('Failed to fetch order details:', response.statusText);
-		return { error: 'Failed to fetch order details' };
+		error(response.status, {
+			status: response.status,
+			message: response.status === 404 ? 'NOT FOUND' : 'INTERNAL SERVER ERROR'
+		});
 	}
 
 	const orderDetails = await response.json();
-	// console.log('Order details:', orderDetails);
 
 	return {
 		orderId: id,

@@ -8,13 +8,15 @@ export const load: PageLoad = async ({ params, fetch }) => {
 
 	if (!response.ok) {
 		error(404, {
-			message: 'Not Found'
+			status: 404,
+			message: 'NOT FOUND'
 		});
 	}
 
 	if (!all.ok) {
 		error(500, {
-			message: 'Failed to fetch all services'
+			status: 500,
+			message: 'INTERNAL SERVER ERROR'
 		});
 	}
 

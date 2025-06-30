@@ -33,7 +33,10 @@ export const GET: RequestHandler = async ({ locals, params }) => {
 		.eq('id', orderId)
 		.single();
 
-	if (error) {
+	if (error?.code === 'PGRST116') {
+		// This error code indicates that the order was not found
+		return json({ error: 'Order not found' }, { status: 404 });
+	} else if (error) {
 		console.error('Error fetching order details:', error);
 		return json({ error: 'Failed to fetch order details' }, { status: 500 });
 	}
