@@ -15,8 +15,7 @@
 			<div class="max-w-2xl">
 				<h1 class="text-4xl font-semibold tracking-tight text-balance">Services</h1>
 				<p class="text-muted-foreground mt-2 text-sm leading-relaxed sm:mt-4 sm:text-lg/7">
-					A utility-first CSS framework packed with classes like flex, pt-4, text-center and
-					rotate-90 that can be composed to build any design, directly in your markup.
+          Kami menawarkan berbagai layanan cuci sepatu profesional untuk menjaga kebersihan, kenyamanan, dan tampilan sepatu kesayangan Anda. 
 				</p>
 			</div>
 		</div>
