@@ -26,7 +26,7 @@
 			<Table.Body>
 				{#each page.data.tableOrder as value}
 					<Table.Row>
-						<Table.Cell class="px-6 py-4">{getLastStringUUID(value.id)}</Table.Cell>
+						<Table.Cell class="px-6 py-4">{value.invoice_id}</Table.Cell>
 						<Table.Cell class="py-4 text-center">
 							<Badge variant="outline" class="text-muted-foreground px-1.5">
 								<Circle class="fill-yellow-500 dark:fill-yellow-400" />

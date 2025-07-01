@@ -20,11 +20,15 @@
 			size: 50
 		},
 		{
-			accessorKey: 'id',
-			header: 'Order ID',
+			accessorKey: 'invoice_id',
+			header: 'Invoice ID',
 			enableHiding: false,
 			cell: ({ row }) => renderSnippet(DataTableId, { row }),
-			size: 180
+			size: 180,
+      filterFn: (row, columnId, filterValue) => {
+        const cellValue = String(row.getValue(columnId) ?? '');
+        return cellValue.toLowerCase().includes(String(filterValue).toLowerCase());
+      }
 		},
 		{
 			accessorKey: 'pickup_address',
@@ -194,12 +198,12 @@
 		<p class="text-muted-foreground text-sm">Review and manage the latest orders from customers.</p>
 		<Input
 			placeholder="Filter orders..."
-			value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+			value={(table.getColumn('invoice_id')?.getFilterValue() as string) ?? ''}
 			onchange={(e) => {
-				table.getColumn('id')?.setFilterValue(e.currentTarget.value);
+				table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
 			}}
 			oninput={(e) => {
-				table.getColumn('id')?.setFilterValue(e.currentTarget.value);
+				table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
 			}}
 			class="max-w-sm"
 		/>
@@ -304,7 +308,7 @@
 </div>
 
 {#snippet DataTableId({ row }: { row: Row<Schema> })}
-	{getLastStringUUID(row.getValue('id'))}
+	{row.getValue('invoice_id')}
 {/snippet}
 
 {#snippet DataTablePickupAddress({ row }: { row: Row<Schema> })}

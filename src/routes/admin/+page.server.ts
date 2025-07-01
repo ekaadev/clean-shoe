@@ -50,7 +50,7 @@ const getTotalAllCustomer = async (supabase: SupabaseClient) => {
 const getTableOrder = async (supabase: SupabaseClient) => {
 	const { data: orders, error } = await supabase
 		.from('orders')
-		.select('id,total_amount,status,payment_status, created_at')
+		.select('id,total_amount,status,payment_status, created_at, invoice_id')
 		.eq('status', 'pending')
 		.eq('payment_status', 'paid')
 		.order('created_at', { ascending: true })

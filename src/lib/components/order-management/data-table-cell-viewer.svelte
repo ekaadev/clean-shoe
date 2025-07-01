@@ -193,6 +193,14 @@
 				</div>
 				<div class="grid grid-cols-12 items-center">
 					<div class="col-span-4 flex flex-col">
+						<Label>Invoice ID</Label>
+					</div>
+					<div class="col-span-8 flex flex-col">
+						<Input value={item.invoice_id} disabled class="w-full" />
+					</div>
+				</div>
+				<div class="grid grid-cols-12 items-center">
+					<div class="col-span-4 flex flex-col">
 						<Label>User ID</Label>
 					</div>
 					<div class="col-span-8 flex flex-col">
