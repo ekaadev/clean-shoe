@@ -1,5 +1,6 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
+import { formatInvoiceOrder } from '@/helper/format';
 
 interface OrderItem {
 	order_id: number;
@@ -115,7 +116,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 					pickup_address: orders.pickup_address,
 					delivery_address: orders.delivery_address,
 					pickup_date: orders.pickup_date,
-					notes: orders.notes || ''
+					notes: orders.notes || '',
+          invoice_id: formatInvoiceOrder()
 				}
 			])
 			.select()

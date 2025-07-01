@@ -239,7 +239,7 @@
 									<div class="flex justify-between text-sm">
 										<!-- no invoice will be update soon, it is temporary -->
 										<span>No Invoice</span>
-										<span>{data.orderDetails.id}</span>
+										<span>{data.orderDetails.invoice_id}</span>
 									</div>
 									<div class="flex justify-between text-sm">
 										<span>Status Pembayaran</span>

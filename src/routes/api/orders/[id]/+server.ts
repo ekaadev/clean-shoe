@@ -30,7 +30,7 @@ export const GET: RequestHandler = async ({ locals, params }) => {
     )
   `
 		)
-		.eq('id', orderId)
+		.eq('invoice_id', orderId)
 		.single();
 
 	if (error?.code === 'PGRST116') {
