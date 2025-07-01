@@ -19,6 +19,8 @@
 		invalidateAll();
 	});
 
+	$inspect(data)
+
 	// ini untuk mengambil layanan lain yang tidak sama dengan layanan saat ini
 	const other_services = $derived(data.services.filter((s: any) => s.id !== data.service.id));
 
