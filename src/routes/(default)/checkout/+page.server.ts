@@ -7,6 +7,7 @@ import type { CartItem } from '$lib/types/interface/cart.interface.js';
 
 // Type definitions for order data
 interface OrderItem {
+  name: string;
 	service_id: number;
 	quantity: number;
 	price: number;
@@ -94,14 +95,17 @@ export const actions: Actions = {
 				notes: orderData.notes || ''
 			},
 			order_items: cartData.map((item: CartItem) => ({
-				service_id: item.service_id, // Changed from item.id to item.service_id
-				quantity: item.qty, // Changed from item.quantity to item.qty
-				price: item.price, // Changed from item.total to item.price (unit price)
-				total: item.total // Added total for line item total
+        name: item.service_name,
+				service_id: item.service_id, 
+				quantity: item.qty, 
+				price: item.price, 
+				total: item.total 
 			}))
 		};
 
 		console.log('Update Data being sent to API:', JSON.stringify(updateData, null, 2));
+
+		let invoiceUrl;
 
 		// TODO: Save orderData to database
 		try {
@@ -139,9 +143,9 @@ export const actions: Actions = {
 					message: errorMessage
 				});
 			}
-
 			const result = JSON.parse(responseText);
 			console.log('Order saved successfully:', result);
+			invoiceUrl = result.invoiceUrl;
 		} catch (error) {
 			console.error('Error saving order:', error);
 			return fail(500, {
@@ -155,8 +159,9 @@ export const actions: Actions = {
 
 		return {
 			form,
+      invoiceUrl,
 			message: 'Pesanan berhasil dibuat!',
-			orderId: `ORDER-${Date.now()}` // Generate temporary order ID
+			orderId: `ORDER-${Date.now()}` // Generate temporary order ID,
 		};
 	}
 };

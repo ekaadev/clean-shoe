@@ -1,6 +1,9 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { formatInvoiceOrder } from '@/helper/format';
+import { Invoice } from '$lib/xendit';
+import type { CreateInvoiceRequest } from 'xendit-node/invoice/models';
+import { PUBLIC_URL } from '$env/static/public';
 
 interface OrderItem {
 	order_id: number;
@@ -8,6 +11,12 @@ interface OrderItem {
 	quantity: number;
 	price: number;
 	total: number;
+}
+
+interface ListOrderXendit {
+	name: string;
+	quantity: number;
+	price: number;
 }
 
 export const GET: RequestHandler = async ({ locals, url }) => {
@@ -104,6 +113,9 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			notes: orders.notes || ''
 		});
 
+		// generate invoice id
+		const invoiceId = formatInvoiceOrder();
+
 		const { data, error } = await locals.supabase
 			.from('orders')
 			.insert([
@@ -117,7 +129,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 					delivery_address: orders.delivery_address,
 					pickup_date: orders.pickup_date,
 					notes: orders.notes || '',
-          invoice_id: formatInvoiceOrder()
+					invoice_id: invoiceId
 				}
 			])
 			.select()
@@ -171,8 +183,48 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			);
 		}
 
+		const dataInvoice: CreateInvoiceRequest = {
+			externalId: invoiceId,
+			amount: orders.total_amount,
+			payerEmail: orders.email,
+			description: 'Pembayaran Jasa Cuci Sepatu',
+			successRedirectUrl: `${PUBLIC_URL}/orders/${invoiceId}`, // test with tunnel random url
+			items: order_items.map((item: ListOrderXendit) => ({
+				name: `Layanan ${item.name}`,
+				quantity: item.quantity,
+				price: item.price
+			}))
+		};
+
+		let invoiceUrl;
+		try {
+			const created = await Invoice.createInvoice({ data: dataInvoice });
+			invoiceUrl = created.invoiceUrl;
+
+			console.log('Invoice created successfully:', created);
+		} catch (invoiceError) {
+			console.error('Error creating invoice:', invoiceError);
+			return json(
+				{
+					error: 'Failed to create invoice'
+				},
+				{
+					status: 500
+				}
+			);
+		}
+
 		console.log('Order items created successfully');
-		return json(data || null, { status: 201 });
+		return json(
+			{
+				order_id: data.id,
+				invoice_id: data.invoice_id,
+				invoiceUrl: invoiceUrl
+			},
+			{
+				status: 201
+			}
+		);
 	} catch (error) {
 		console.error('Error processing request:', error);
 		return json(

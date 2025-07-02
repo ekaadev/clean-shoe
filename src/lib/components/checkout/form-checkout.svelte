@@ -36,14 +36,28 @@
 		},
 		onResult: ({ result }) => {
 			if (result.type === 'success' && result.data?.message) {
-				// Show success message
-				console.log('Order success:', result.data.message);
-				toast.success('Pesanan berhasil dibuat!');
-				// Clear cart after successful submission
-				cart.clearCart();
-				// Redirect to home or orders page
-				if (browser) {
-					goto('/orders'); // or wherever you want to redirect
+				const invoiceUrl = result.data.invoiceUrl;
+
+				console.log('Order success:', result.data);
+
+				if (invoiceUrl) {
+					toast.success('Pesanan berhasil dibuat! Mengalihkan ke pembayaran...');
+					// Clear cart after successful submission
+					cart.clearCart();
+
+					if (browser) {
+						window.location.href = invoiceUrl;
+					}
+				} else {
+					// Show success message
+					console.log('Order success tanpa invoice_url:', result.data?.message);
+					toast.success('Pesanan berhasil dibuat!');
+					// Clear cart after successful submission
+					cart.clearCart();
+					// Redirect to home or orders page
+					if (browser) {
+						window.location.href = '/services';
+					}
 				}
 			}
 		},
