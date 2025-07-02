@@ -66,6 +66,7 @@
 		"@supabase/supabase-js": "^2.49.4",
 		"@tabler/icons-svelte": "^3.33.0",
 		"dotenv": "^16.5.0",
-		"uuid": "^11.1.0"
+		"uuid": "^11.1.0",
+		"xendit-node": "^7.0.0"
 	}
 }
