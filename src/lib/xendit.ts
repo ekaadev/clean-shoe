@@ -1,8 +1,8 @@
 import { Xendit } from 'xendit-node';
-import { PUBLIC_XENDIT_SECRET_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/private';
 
 const xendit = new Xendit({
-	secretKey: PUBLIC_XENDIT_SECRET_KEY || ''
+	secretKey: env.XENDIT_SECRET_KEY || '',
 });
 
 export const { Invoice } = xendit;
