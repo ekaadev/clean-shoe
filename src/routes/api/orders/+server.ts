@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { formatInvoiceOrder } from '@/helper/format';
 import { Invoice } from '$lib/xendit';
 import type { CreateInvoiceRequest } from 'xendit-node/invoice/models';
-import { PUBLIC_URL } from '$env/static/public';
+// import { PUBLIC_URL } from '$env/static/public';
 
 interface OrderItem {
 	order_id: number;
@@ -70,7 +70,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	});
 };
 
-export const POST: RequestHandler = async ({ locals, request }) => {
+export const POST: RequestHandler = async ({ locals, request, url }) => {
 	try {
 		// Check if user is authenticated (optional for guest orders)
 		console.log('User authenticated:', !!locals.user);
@@ -183,12 +183,14 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			);
 		}
 
+    const origin = url.origin;
+
 		const dataInvoice: CreateInvoiceRequest = {
 			externalId: invoiceId,
 			amount: orders.total_amount,
 			payerEmail: orders.email,
 			description: 'Pembayaran Jasa Cuci Sepatu',
-			successRedirectUrl: `${PUBLIC_URL}/orders/${invoiceId}`, // test with tunnel random url
+			successRedirectUrl: `${origin}/orders/${invoiceId}`, 
 			items: order_items.map((item: ListOrderXendit) => ({
 				name: `Layanan ${item.name}`,
 				quantity: item.quantity,
