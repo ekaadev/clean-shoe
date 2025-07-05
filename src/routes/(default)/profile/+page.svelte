@@ -14,9 +14,9 @@
 		<!-- title, description, and cta -->
 		<div class="shrink-0 pt-10 lg:pt-20">
 			<div>
-				<h1 class="text-4xl font-semibold tracking-tight text-balance">Profile</h1>
+				<h1 class="text-4xl font-semibold tracking-tight text-balance">Profil</h1>
 				<p class="text-muted-foreground mt-2 text-sm leading-relaxed sm:mt-4 sm:text-base/7">
-					Manage your account details, view your order history, and update your preferences.
+					Atur akunmu, cek riwayat pesanan, dan ubah preferensimu kapan aja.
 				</p>
 			</div>
 		</div>

@@ -55,38 +55,36 @@
 		<Form.Field {form} name="name">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Name</Form.Label>
+					<Form.Label>Nama</Form.Label>
 					<Input {...props} bind:value={$formData.name} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>This is your display name.</Form.Description>
+			<Form.Description>Ini nama yang keliatan di profil kamu.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
 		<Form.Field {form} name="address">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Address</Form.Label>
+					<Form.Label>Alamat</Form.Label>
 					<Input {...props} bind:value={$formData.address} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>
-				Please provide your address for shipping and billing purposes.
-			</Form.Description>
+			<Form.Description>Masukin alamatmu buat pengiriman & pembayaran, ya!</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
 		<Form.Field {form} name="phone_number">
 			<Form.Control>
 				{#snippet children({ props })}
-					<Form.Label>Phone Number</Form.Label>
+					<Form.Label>Nomor Ponsel</Form.Label>
 					<Input {...props} bind:value={$formData.phone_number} />
 				{/snippet}
 			</Form.Control>
-			<Form.Description>Please provide your phone number for contact purposes.</Form.Description>
+			<Form.Description>Nomor HP kamu penting biar kami bisa hubungi kalau perlu.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
 
-		<Form.Button type="submit" class="w-fit">Submit</Form.Button>
+		<Form.Button type="submit" class="w-fit">Simpan Perubahan</Form.Button>
 	</div>
 </form>
