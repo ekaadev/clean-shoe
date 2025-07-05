@@ -1,12 +1,17 @@
 <script lang="ts">
+	import * as Alert from '@/components/ui/alert/index';
 	import * as Card from '@/components/ui/card/index';
+	import CircleAlertIcon from '@lucide/svelte/icons/circle-alert';
+	import CopyIcon from '@lucide/svelte/icons/copy';
+	import CheckIcon from '@lucide/svelte/icons/check';
 	import { AspectRatio } from '@/components/ui/aspect-ratio/index';
 	import { Badge } from '$lib/components/ui/badge/index';
 	import { quintOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	const { data } = $props();
 	import { toIndonesianCurrency } from '$lib/helper/currency';
+	import { tick } from 'svelte';
 
+	const { data } = $props();
 	const dataOrdered = data?.orderDetails.order_items || [];
 
 	// Get the order status
@@ -64,8 +69,9 @@
 		delivered: 'Pesanan Telah Diterima',
 		pending: 'Pesanan Menunggu Konfirmasi',
 		cancelled: 'Pesanan Dibatalkan',
+		ready_for_delivery: 'Pesanan Siap Dikirim',
 		processing: 'Pesanan Sedang Diproses',
-		completed: 'Pesanan Selesai',
+		confirmed: 'Pesanan Selesai',
 		default: 'Status Pesanan'
 	};
 
@@ -74,6 +80,20 @@
 	const currentPaymentStatusColors = $derived(
 		paymentStatusColors[data?.orderDetails?.payment_status] || paymentStatusColors.default
 	);
+
+	let copied = $state(false);
+	let invoiceId = data?.orderDetails?.invoice_id || '';
+
+	async function copyInvoiceId() {
+		try {
+			await navigator.clipboard.writeText(invoiceId);
+			copied = true;
+			await tick();
+			setTimeout(() => (copied = false), 2000);
+		} catch (e) {
+			console.error('Gagal menyalin invoice ID', e);
+		}
+	}
 </script>
 
 <svelte:head>
@@ -99,7 +119,7 @@
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 					<div class="flex flex-1 flex-col gap-4">
 						<div class="flex items-center justify-between">
-							<p class="text-lg font-semibold">Purchased Services</p>
+							<p class="text-lg font-semibold">Layanan yang Kamu Pesan</p>
 							<span class="text-muted-foreground text-sm">
 								{dataOrdered.length}
 								{dataOrdered.length === 1 ? 'service' : 'services'}
@@ -133,7 +153,7 @@
 															href={`/services/${value.services.id}`}
 															class="text-sm text-blue-600 hover:text-blue-800 hover:underline"
 														>
-															View Details
+															Lihat Detail
 														</a>
 													</div>
 
@@ -146,7 +166,7 @@
 												<div class="grid grid-cols-1 gap-3 md:grid-cols-3">
 													<div class="flex flex-col">
 														<span class="text-muted-foreground text-xs tracking-wide uppercase"
-															>Quantity</span
+															>Kuantitas</span
 														>
 														<span class="text-sm font-medium">
 															{value.quantity || 1}
@@ -156,7 +176,7 @@
 
 													<div class="flex flex-col">
 														<span class="text-muted-foreground text-xs tracking-wide uppercase"
-															>Estimated Days</span
+															>Estimasi Pengerjaan</span
 														>
 														<span class="text-sm font-medium">
 															{value.services.estimated_days}
@@ -166,7 +186,7 @@
 
 													<div class="flex flex-col">
 														<span class="text-muted-foreground text-xs tracking-wide uppercase"
-															>Unit Price</span
+															>Harga Unit</span
 														>
 														<span class="text-sm font-semibold">
 															{toIndonesianCurrency(value.services.price)}
@@ -194,7 +214,7 @@
 						{#if dataOrdered.length > 0}
 							<Card.Root class="mt-1">
 								<Card.Header>
-									<Card.Title class="text-base">Order Summary</Card.Title>
+									<Card.Title class="text-base">Ringkasan Pesanan</Card.Title>
 								</Card.Header>
 								<Card.Content class="pt-0">
 									<div class="space-y-2">
@@ -210,7 +230,7 @@
 										{/each}
 										<div class="mt-2 border-t pt-2">
 											<div class="flex justify-between font-semibold">
-												<span>Total Amount:</span>
+												<span>Total Bayar:</span>
 												<span class="text-lg text-green-600">
 													{toIndonesianCurrency(
 														dataOrdered.reduce(
@@ -228,7 +248,15 @@
 						{/if}
 					</div>
 					<div class="flex flex-1 flex-col gap-4">
-						<p class="text-lg font-semibold">Order Details</p>
+						<p class="text-lg font-semibold">Detail Pesanan</p>
+						<!-- alert copy id invoice -->
+						<Alert.Root variant="default" class="text-amber-500 shadow-md">
+							<CircleAlertIcon class="size-4" />
+							<Alert.Title>Info</Alert.Title>
+							<Alert.Description class="text-amber-500"
+								>Jangan lupa salin No. Invoice kalau email notifikasi belum masuk, ya!</Alert.Description
+							>
+						</Alert.Root>
 						<!-- data metode pembayaran -->
 						<Card.Root>
 							<Card.Header>
@@ -237,16 +265,27 @@
 							<Card.Content class="pt-0">
 								<div class="space-y-2">
 									<div class="flex justify-between text-sm">
-										<!-- no invoice will be update soon, it is temporary -->
 										<span>No Invoice</span>
-										<span>{data.orderDetails.invoice_id}</span>
+										<div class="flex items-center gap-2">
+											<span>{invoiceId}</span>
+											<button
+												onclick={copyInvoiceId}
+												class="hover:bg-muted cursor-pointer rounded p-1"
+											>
+												{#if copied}
+													<CheckIcon class="h-4 w-4 text-green-500" />
+												{:else}
+													<CopyIcon class="h-4 w-4" />
+												{/if}
+											</button>
+										</div>
 									</div>
 									<div class="flex justify-between text-sm">
 										<span>Status Pembayaran</span>
 										<span>
 											<Badge
 												variant="outline"
-												class="{currentPaymentStatusColors.text} {currentPaymentStatusColors.bg}"
+												class="capitalize {currentPaymentStatusColors.text} {currentPaymentStatusColors.bg}"
 											>
 												{data.orderDetails.payment_status}
 											</Badge>
@@ -259,7 +298,7 @@
 												variant="outline"
 												class="capitalize {currentStatusColors.text} {currentStatusColors.bg}"
 											>
-												{data.orderDetails.status}
+												{data.orderDetails.status.replace(/[-_]/g, ' ')}
 											</Badge>
 										</span>
 									</div>
@@ -267,8 +306,9 @@
 										<div class="flex justify-between font-semibold">
 											<span>Jenis Pembayaran</span>
 											<span class="text-lg">
-												{data.orderDetails.payment_transactions[0]?.payment_method.toUpperCase() ||
-													'N/A'}
+												{data.orderDetails.payment_transactions[0]?.payment_method
+													.replace(/[-_]/g, ' ')
+													.toUpperCase() || 'N/A'}
 											</span>
 										</div>
 									</div>
