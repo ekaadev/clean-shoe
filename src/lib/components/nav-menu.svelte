@@ -20,15 +20,15 @@
 
 	const menu: { title: string; href: string }[] = [
 		{
-			title: 'Home',
+			title: 'Beranda',
 			href: '/'
 		},
 		{
-			title: 'Services',
+			title: 'Layanan',
 			href: '/services'
 		},
 		{
-			title: 'Check Order',
+			title: 'Cek Pesanan',
 			href: '/orders'
 		}
 	];
@@ -58,7 +58,8 @@
 	};
 </script>
 
-{#if isMobile.current}
+<!-- Mobile Drawer Navigation -->
+<div class="md:hidden">
 	<Drawer.Root direction="right">
 		<div
 			class="bg-background sticky top-0 z-50 flex flex-row items-center justify-between border-b p-4"
@@ -66,9 +67,7 @@
 			<a href="/" class="block font-semibold">Clean Shoe</a>
 			<div class="flex flex-row items-center gap-2">
 				<Button onclick={toggleMode} variant="outline" size="icon">
-					<SunIcon
-						class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-					/>
+					<SunIcon class="h-[1.2rem] w-[1.2rem] transition-all dark:scale-0 dark:-rotate-90" />
 					<MoonIcon
 						class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
 					/>
@@ -79,8 +78,9 @@
 					{#if $cartItemCount > 0}
 						<span
 							class="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-xs"
-							>{$cartItemCount}</span
 						>
+							{$cartItemCount}
+						</span>
 					{/if}
 				</a>
 
@@ -89,6 +89,7 @@
 				</Drawer.Trigger>
 			</div>
 		</div>
+
 		<Drawer.Content>
 			<Drawer.Header class="flex flex-row items-start justify-between">
 				<div class="flex w-full flex-col gap-2 px-4 py-1">
@@ -110,8 +111,12 @@
 						>
 							<UserCircleIcon class="h-5 w-5" />
 							<div class="flex flex-col">
-								<span class="text-left text-xs">John Doe</span>
-								<span class="text-muted-foreground text-left text-xs">Johne@mail.com</span>
+								<span class="text-left text-xs"
+									>{page.data.profile.name || 'Nama masih kosong'}</span
+								>
+								<span class="text-muted-foreground text-left text-xs"
+									>{page.data.profile.email || 'Email masih kosong'}</span
+								>
 							</div>
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content
@@ -123,111 +128,113 @@
 								<DropdownMenu.Item>
 									<UserCircleIcon />
 									<Drawer.Close>
-										<a href="/profile">My Account</a>
+										<a href="/profile">Profil</a>
 									</Drawer.Close>
 								</DropdownMenu.Item>
 								{#if page.data.profile && page.data.profile.role === 'admin'}
 									<DropdownMenu.Item>
 										<LogoutIcon />
-										<a href="/admin">Back to dashboard</a>
+										<a href="/admin">Kembali ke dashboard</a>
 									</DropdownMenu.Item>
 								{/if}
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item onclick={logout}>
 									<LogoutIcon />
-									Logout</DropdownMenu.Item
+									Keluar</DropdownMenu.Item
 								>
 							</DropdownMenu.Group>
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
 				{:else}
-					<Button variant="outline" href="/auth" class="w-full">Log In</Button>
-					<Button href="/auth" class="w-full">Sign Up</Button>
+					<Button variant="outline" href="/auth" class="w-full">Masuk</Button>
+					<Button href="/auth" class="w-full">Daftar</Button>
 				{/if}
 			</Drawer.Footer>
 		</Drawer.Content>
 	</Drawer.Root>
-{:else}
-	<nav class="bg-background sticky top-0 z-50 flex w-full flex-1 flex-col border-b">
-		<div class="container mx-auto flex flex-row items-center justify-between py-4">
+</div>
+
+<!-- Desktop Navigation -->
+<nav class="bg-background sticky top-0 z-50 hidden w-full flex-col border-b md:flex">
+	<div class="container mx-auto flex flex-row items-center justify-between py-4">
+		<NavigationMenu.Root>
+			<NavigationMenu.List>
+				<NavigationMenu.Item>
+					<a href="/" class="font-semibold">Clean Shoe</a>
+				</NavigationMenu.Item>
+			</NavigationMenu.List>
+		</NavigationMenu.Root>
+		<div class="flex flex-row items-center gap-6">
 			<NavigationMenu.Root>
 				<NavigationMenu.List>
-					<NavigationMenu.Item>
-						<a href="/" class="font-semibold">Clean Shoe</a>
-					</NavigationMenu.Item>
+					{#each menu as item}
+						<NavigationMenu.Item>
+							<NavigationMenu.Link href={item.href}>{item.title}</NavigationMenu.Link>
+						</NavigationMenu.Item>
+					{/each}
 				</NavigationMenu.List>
 			</NavigationMenu.Root>
-			<div class="flex flex-row items-center gap-6">
-				<NavigationMenu.Root>
-					<NavigationMenu.List>
-						{#each menu as item}
-							<NavigationMenu.Item>
-								<NavigationMenu.Link href={item.href}>{item.title}</NavigationMenu.Link>
-							</NavigationMenu.Item>
-						{/each}
-					</NavigationMenu.List>
-				</NavigationMenu.Root>
-				<div class="flex flex-row items-center gap-2">
-					<a href="/checkout" class="relative">
-						<Button variant="outline" size="icon"><ShoppingCartIcon class="h-5 w-5" /></Button>
-						{#if $cartItemCount > 0}
-							<span
-								class="bg-primary text-primary-foreground absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs"
-								>{$cartItemCount}</span
-							>
-						{/if}
-					</a>
 
-					<Button onclick={toggleMode} variant="outline" size="icon" class="cursor-pointer">
-						<SunIcon
-							class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-						/>
-						<MoonIcon
-							class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
-						/>
-						<span class="sr-only">Toggle theme</span>
-					</Button>
-
-					{#if page.data.user && page.data.profile}
-						<DropdownMenu.Root>
-							<DropdownMenu.Trigger>
-								<Button variant="outline" size="icon" class="cursor-pointer rounded-full">
-									{page.data.profile.name[0] || 'U'}
-								</Button>
-							</DropdownMenu.Trigger>
-							<DropdownMenu.Content
-								class="w-56 min-w-[var(--radix-dropdown-menu-trigger-width)] rounded-lg"
-								align="end"
-								sideOffset={4}
-							>
-								<DropdownMenu.Group>
-									<DropdownMenu.Item>
-										<UserCircleIcon />
-										<a href="/profile" class="w-full">My Account</a>
-									</DropdownMenu.Item>
-									{#if page.data.profile && page.data.profile.role === 'admin'}
-										<DropdownMenu.Item>
-											<LogoutIcon />
-											<a href="/admin" class="w-full">Back to dashboard</a>
-										</DropdownMenu.Item>
-									{/if}
-									<DropdownMenu.Separator />
-									<DropdownMenu.Item
-										onclick={logout}
-										class="cursor-pointer text-red-500 dark:text-red-400"
-									>
-										<LogoutIcon />
-										Logout</DropdownMenu.Item
-									>
-								</DropdownMenu.Group>
-							</DropdownMenu.Content>
-						</DropdownMenu.Root>
-					{:else}
-						<Button variant="outline" href="/auth">Log In</Button>
-						<Button href="/auth">Sign Up</Button>
+			<div class="flex flex-row items-center gap-2">
+				<a href="/checkout" class="relative">
+					<Button variant="outline" size="icon"><ShoppingCartIcon class="h-5 w-5" /></Button>
+					{#if $cartItemCount > 0}
+						<span
+							class="bg-primary text-primary-foreground absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs"
+						>
+							{$cartItemCount}
+						</span>
 					{/if}
-				</div>
+				</a>
+
+				<Button onclick={toggleMode} variant="outline" size="icon" class="cursor-pointer">
+					<SunIcon class="h-[1.2rem] w-[1.2rem] transition-all dark:scale-0 dark:-rotate-90" />
+					<MoonIcon
+						class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+					/>
+					<span class="sr-only">Toggle theme</span>
+				</Button>
+
+				<!-- Auth / Dropdown tetap sama -->
+				{#if page.data.user && page.data.profile}
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							<Button variant="outline" size="icon" class="cursor-pointer rounded-full">
+								{page.data.profile.name[0] || 'U'}
+							</Button>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content
+							class="w-56 min-w-[var(--radix-dropdown-menu-trigger-width)] rounded-lg"
+							align="end"
+							sideOffset={4}
+						>
+							<DropdownMenu.Group>
+								<DropdownMenu.Item>
+									<UserCircleIcon />
+									<a href="/profile" class="w-full">Profil</a>
+								</DropdownMenu.Item>
+								{#if page.data.profile && page.data.profile.role === 'admin'}
+									<DropdownMenu.Item>
+										<LogoutIcon />
+										<a href="/admin" class="w-full">Kembali ke dashboard</a>
+									</DropdownMenu.Item>
+								{/if}
+								<DropdownMenu.Separator />
+								<DropdownMenu.Item
+									onclick={logout}
+									class="cursor-pointer text-red-500 dark:text-red-400"
+								>
+									<LogoutIcon />
+									Keluar</DropdownMenu.Item
+								>
+							</DropdownMenu.Group>
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				{:else}
+					<Button variant="outline" href="/auth">Masuk</Button>
+					<Button href="/auth">Daftar</Button>
+				{/if}
 			</div>
 		</div>
-	</nav>
-{/if}
+	</div>
+</nav>
