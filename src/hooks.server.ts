@@ -42,6 +42,7 @@ const supabase: Handle = async ({ event, resolve }) => {
 			error
 		} = await event.locals.supabase.auth.getUser();
 		if (error) {
+			console.error(`[ERROR] ${error.message}`);
 			return {
 				session: null,
 				user: null
@@ -56,7 +57,7 @@ const supabase: Handle = async ({ event, resolve }) => {
 				.eq('id', session.user.id)
 				.single();
 			if (error) {
-				// TODO: log error
+				console.error(`[ERROR] ${error.message}`);
 				return { session: null, user: null };
 			}
 			if (user) {
@@ -89,11 +90,12 @@ const authGuard: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 	event.locals.user = user;
 
-	console.log('Profile:', event.locals.profile);
-
 	if (event.locals.session && event.url.pathname === '/auth') {
 		redirect(303, '/');
 	}
+
+	console.log(`[INFO] User ${user ? user.email : 'No user logged in'}`);
+	console.log(`[INFO] Access Path: ${event.url.pathname}`);
 
 	return resolve(event);
 };

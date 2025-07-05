@@ -91,7 +91,6 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { toIndonesianCurrency } from '@/helper/currency';
-	import { getLastStringUUID, toUppercaseFirstWord } from '@/helper/format';
 	import CircleCheckFilledIcon from '@tabler/icons-svelte/icons/circle-check-filled';
 	import Circle from '@tabler/icons-svelte/icons/circle';
 	import LoaderIcon from '@tabler/icons-svelte/icons/loader';

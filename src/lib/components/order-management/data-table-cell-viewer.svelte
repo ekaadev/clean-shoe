@@ -32,17 +32,22 @@
 	// State to control drawer open/close
 	let drawerOpen = $state(false);
 
-	console.log('Item received:', item);
-	console.log('Page data form:', page.data.form);
+	// console.log('Item received:', item);
+	console.log('Item received');
+	// console.log('Page data form:', page.data.form);
+	console.log('Page data form');
 
 	const form = superForm(page.data.form as SuperValidated<Infer<FormSchema>>, {
 		id: `order-form-${item.id}`,
 		validators: zodClient(formSchema),
 		onSubmit: ({ formElement, formData, cancel }) => {
 			console.log('Form submitting...');
-			console.log('Form element:', formElement);
-			console.log('Form data entries:', [...formData.entries()]);
-			console.log('Current formData store:', formData);
+			// console.log('Form element:', formElement);
+			console.log('Form element');
+			// console.log('Form data entries:', [...formData.entries()]);
+			console.log('Form data entries');
+			// console.log('Current formData store:', formData);
+			console.log('Current formData store');
 
 			// Check if required fields are present
 			const currentFormData = formData.get('id');
@@ -53,7 +58,8 @@
 			}
 		},
 		onResult: ({ result }) => {
-			console.log('Form result:', result);
+			// console.log('Form result:', result);
+			console.log('Form result received');
 			if (result.type === 'success') {
 				toast.success('Order updated successfully!');
 				drawerOpen = false; // Close the drawer
@@ -62,11 +68,13 @@
 			}
 		},
 		onError: ({ result }) => {
-			console.log('Form error:', result);
+			// console.log('Form error:', result);
+			console.log('Form error');
 			toast.error('An error occurred while updating the order.');
 		},
 		onUpdated: ({ form }) => {
-			console.log('Form updated:', form);
+			// console.log('Form updated:', form);
+			console.log('Form updated');
 		}
 	});
 
@@ -125,13 +133,15 @@
 	);
 
 	onMount(() => {
-		console.log('Setting form data with item:', item);
+		// console.log('Setting form data with item:', item);
+		console.log('Setting form data with item');
 		$formData.id = item.id;
 		$formData.status = item.status ?? '';
 		$formData.payment_status = item.payment_status ?? '';
 		$formData.pickup_date = item.pickup_date ?? '';
 		$formData.delivery_date = item.delivery_date ?? '';
-		console.log('Form data after setting:', $formData);
+		// console.log('Form data after setting:', $formData);
+		console.log('Form data after setting');
 	});
 
 	// Function to handle pickup date change
@@ -221,7 +231,8 @@
 										bind:value={$formData.status}
 										onValueChange={(value) => {
 											$formData.status = value ?? '';
-											console.log('Status changed to:', value);
+											// console.log('Status changed to:', value);
+											console.log('Status changed');
 										}}
 									>
 										<Select.Trigger class="w-full capitalize" {...props}
@@ -260,7 +271,8 @@
 										bind:value={$formData.payment_status}
 										onValueChange={(value) => {
 											$formData.payment_status = value ?? '';
-											console.log('Payment status changed to:', value);
+											// console.log('Payment status changed to:', value);
+											console.log('Payment status changed');
 										}}
 									>
 										<Select.Trigger class="w-full capitalize" {...props}

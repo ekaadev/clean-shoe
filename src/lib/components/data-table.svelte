@@ -6,7 +6,6 @@
 	import Circle from '@tabler/icons-svelte/icons/circle';
 	import { toIndonesianCurrency } from '$lib/helper/currency';
 	import { toUppercaseFirstWord } from '$lib/helper/format';
-	import { getLastStringUUID } from '$lib/helper/format';
 </script>
 
 <div class="px-4 lg:px-6">

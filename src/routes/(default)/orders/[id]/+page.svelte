@@ -10,6 +10,7 @@
 	import { fly } from 'svelte/transition';
 	import { toIndonesianCurrency } from '$lib/helper/currency';
 	import { tick } from 'svelte';
+	import { toast } from 'svelte-sonner';
 
 	const { data } = $props();
 	const dataOrdered = data?.orderDetails.order_items || [];
@@ -91,7 +92,7 @@
 			await tick();
 			setTimeout(() => (copied = false), 2000);
 		} catch (e) {
-			console.error('Gagal menyalin invoice ID', e);
+			toast.error('Gagal menyalin No. Invoice. Silakan coba lagi.');
 		}
 	}
 </script>

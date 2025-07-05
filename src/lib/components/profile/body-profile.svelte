@@ -32,7 +32,7 @@
 		onError: ({ result }) => {
 			// Show error message
 			toast.error('Failed to update profile. Please try again.');
-			console.error('Form error:', result);
+			console.error('Form error');
 		}
 	});
 

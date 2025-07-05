@@ -47,10 +47,12 @@
 			}
 		},
 		onError: ({ result }) => {
-			console.error('Form submission error:', result);
+			// console.error('Form submission error:', result);
+			console.error('Form submission error');
 		},
 		onResult: ({ result }) => {
-			console.log('Form result:', result);
+			// console.log('Form result:', result);
+			console.log('Form result received');
 			if (result.type === 'success') {
 				toast.success('Service updated successfully!');
 				editDrawerOpen = false; // Close the drawer

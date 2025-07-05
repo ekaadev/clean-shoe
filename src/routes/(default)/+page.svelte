@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { intersect } from '$lib/components/intersect';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import LayananUnggulan from '@/components/featured-service.svelte';
 	import OrderSteps from '$lib/components/order-step.svelte';
@@ -32,7 +31,7 @@
 		'https://xxcfabnlhvbfasfykzvd.supabase.co/storage/v1/object/public/services-images/services/464988681_537973812151683_2144598391232474668_n.webp',
 		'https://xxcfabnlhvbfasfykzvd.supabase.co/storage/v1/object/public/services-images/services/467623127_2320184648347664_7700562396104769753_n.webp',
 		'https://xxcfabnlhvbfasfykzvd.supabase.co/storage/v1/object/public/services-images/services/468912001_1603844837158562_9025008881879551292_n.jpg',
-    "https://xxcfabnlhvbfasfykzvd.supabase.co/storage/v1/object/public/services-images/services/466704647_1120901779392294_1884376990759167194_n.jpg"
+		'https://xxcfabnlhvbfasfykzvd.supabase.co/storage/v1/object/public/services-images/services/466704647_1120901779392294_1884376990759167194_n.jpg'
 	];
 </script>
 

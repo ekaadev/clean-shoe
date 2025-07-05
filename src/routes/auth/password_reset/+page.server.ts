@@ -17,7 +17,7 @@ export const actions: Actions = {
 			.eq('email', email);
 
 		if (userError) {
-			console.error(userError);
+			console.error(`[ERROR] ${userError.message}`);
 			return fail(400, {
 				error: true,
 				message: userError.message,
@@ -26,6 +26,7 @@ export const actions: Actions = {
 		}
 
 		if (!existingUser || existingUser.length === 0) {
+			console.warn(`[WARN] Email not found: ${email}`);
 			return fail(400, {
 				error: true,
 				message: 'Email not found',
@@ -39,13 +40,15 @@ export const actions: Actions = {
 		});
 
 		if (error) {
-			console.error(error);
+			console.error(`[ERROR] Password reset failed: ${error.message}`);
 			return fail(400, {
 				error: true,
 				message: error.message,
 				type: 'reset'
 			});
 		}
+
+		console.log(`[INFO] Password reset email sent to: ${email}`);
 
 		return {
 			success: true

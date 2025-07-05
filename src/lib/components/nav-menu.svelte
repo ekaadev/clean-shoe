@@ -13,6 +13,7 @@
 	import ShoppingCartIcon from '@lucide/svelte/icons/shopping-cart';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import { toast } from 'svelte-sonner';
 
 	import { IsMobile } from '@/hooks/is-mobile.svelte';
 
@@ -41,19 +42,19 @@
 			// Get supabase from page data (available from root layout)
 			const supabase = page.data.supabase;
 			if (!supabase) {
-				console.error('Supabase client not available');
+				// console.error('Supabase client not available');
 				return;
 			}
 
 			const { error } = await supabase.auth.signOut();
 			if (error) {
-				console.error('logout error:', error);
+				// console.error('logout error:', error);
 				return;
 			} else {
 				await goto('/auth');
 			}
 		} catch (error) {
-			console.error('An error occurred during logout:', error);
+			toast.error('Gagal keluar. Silakan coba lagi.');
 		}
 	};
 </script>

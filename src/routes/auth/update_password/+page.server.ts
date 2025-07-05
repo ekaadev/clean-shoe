@@ -15,6 +15,7 @@ export const actions = {
 
 		// check if password and confirm password match
 		if (password !== confirmPassword) {
+			console.warn('[WARN] Password and confirm password do not match');
 			return fail(400, {
 				error: true,
 				message: 'Password and confirm password do not match',
@@ -28,13 +29,15 @@ export const actions = {
 		});
 
 		if (error) {
-			console.error(error);
+			console.error(`[ERROR] Password update failed: ${error.message}`);
 			return fail(400, {
 				error: true,
 				message: error.message,
 				type: 'update'
 			});
 		}
+
+		console.log('[INFO] Password updated successfully');
 
 		return {
 			success: true

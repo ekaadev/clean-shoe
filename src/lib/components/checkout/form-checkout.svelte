@@ -14,9 +14,8 @@
 	import { Textarea } from '@/components/ui/textarea';
 
 	// Impor yang diperlukan untuk logika tanggal
-	import { cart } from '$lib/helper/cart-handler'; // Sesuaikan path jika perlu
+	import { cart } from '$lib/helper/cart-handler';
 	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 
 	// Inisialisasi Form
 	let { data } = $props();
@@ -32,13 +31,15 @@
 
 			// Ensure cart data is included in the form submission
 			formData.set('cartData', JSON.stringify($cart));
-			console.log('Submitting order with cart data:', $cart);
+			// console.log('Submitting order with cart data:', $cart);
+			console.log('Submitting order with cart data');
 		},
 		onResult: ({ result }) => {
 			if (result.type === 'success' && result.data?.message) {
 				const invoiceUrl = result.data.invoiceUrl;
 
-				console.log('Order success:', result.data);
+				// console.log('Order success:', result.data);
+				console.log('Order success');
 
 				if (invoiceUrl) {
 					toast.success('Pesanan berhasil dibuat! Mengalihkan ke pembayaran...');
@@ -50,7 +51,8 @@
 					}
 				} else {
 					// Show success message
-					console.log('Order success tanpa invoice_url:', result.data?.message);
+					// console.log('Order success tanpa invoice_url:', result.data?.message);
+					console.log('Order success tanpa invoice_url');
 					toast.success('Pesanan berhasil dibuat!');
 					// Clear cart after successful submission
 					cart.clearCart();
@@ -62,7 +64,8 @@
 			}
 		},
 		onError: ({ result }) => {
-			console.error('Form submission error:', result);
+			// console.error('Form submission error:', result);
+			console.error('Form submission error');
 			toast.error('Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.');
 		}
 	});

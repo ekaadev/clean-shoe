@@ -14,7 +14,7 @@ export const actions: Actions = {
 			.eq('email', email);
 
 		if (userError) {
-			console.error(userError);
+			console.error(`[ERROR] ${userError.message}`);
 			return fail(400, {
 				error: true,
 				message: userError.message,
@@ -23,6 +23,7 @@ export const actions: Actions = {
 		}
 
 		if (existingUser && existingUser.length > 0) {
+			console.warn(`[WARN] User already exists with email: ${email}`);
 			return fail(400, {
 				error: true,
 				message: 'User already exists with this email',
@@ -33,7 +34,7 @@ export const actions: Actions = {
 		// Proceed with signup
 		const { error } = await supabase.auth.signUp({ email, password });
 		if (error) {
-			console.error(error);
+			console.error(`[ERROR] Signup failed: ${error.message}`);
 			return fail(400, {
 				error: true,
 				message: error.message,
@@ -52,13 +53,15 @@ export const actions: Actions = {
 
 		const { error } = await supabase.auth.signInWithPassword({ email, password });
 		if (error) {
-			console.error(error);
+			console.log(`[ERROR] Login failed: ${error.message}`);
 			return fail(400, {
 				error: true,
 				message: error.message,
 				type: 'login'
 			});
 		}
+
+		console.log(`[INFO] User logged in: ${email}`);
 
 		return {
 			success: true
