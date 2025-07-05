@@ -25,10 +25,10 @@
 			enableHiding: false,
 			cell: ({ row }) => renderSnippet(DataTableId, { row }),
 			size: 180,
-      filterFn: (row, columnId, filterValue) => {
-        const cellValue = String(row.getValue(columnId) ?? '');
-        return cellValue.toLowerCase().includes(String(filterValue).toLowerCase());
-      }
+			filterFn: (row, columnId, filterValue) => {
+				const cellValue = String(row.getValue(columnId) ?? '');
+				return cellValue.toLowerCase().includes(String(filterValue).toLowerCase());
+			}
 		},
 		{
 			accessorKey: 'pickup_address',
@@ -324,7 +324,7 @@
 {/snippet}
 
 {#snippet DataTableStatus({ row }: { row: Row<Schema> })}
-	<Badge variant="outline" class="text-muted-foreground px-1.5">
+	<Badge variant="outline" class="text-muted-foreground px-1.5 capitalize">
 		{#if row.getValue('status') === 'pending'}
 			<Circle class="fill-yellow-500 dark:fill-yellow-400" />
 		{:else if row.getValue('status') === 'confirmed'}
@@ -338,12 +338,12 @@
 		{:else}
 			<Circle class="fill-red-500 dark:fill-red-400" />
 		{/if}
-		{toUppercaseFirstWord(row.getValue('status'))}
+		{(row.getValue('status') as string).replace(/[-_]/g, ' ')}
 	</Badge>
 {/snippet}
 
 {#snippet DataTablePaymentStatus({ row }: { row: Row<Schema> })}
-	<Badge variant="outline" class="text-muted-foreground px-1.5">
+	<Badge variant="outline" class="text-muted-foreground px-1.5 capitalize">
 		{#if row.getValue('payment_status') === 'pending'}
 			<Circle class="fill-yellow-500 dark:fill-yellow-400" />
 		{:else if row.getValue('payment_status') === 'paid'}
@@ -351,6 +351,6 @@
 		{:else}
 			<Circle class="fill-red-500 dark:fill-red-400" />
 		{/if}
-		{toUppercaseFirstWord(row.getValue('payment_status'))}
+		{row.getValue('payment_status')}
 	</Badge>
 {/snippet}

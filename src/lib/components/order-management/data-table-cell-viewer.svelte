@@ -224,8 +224,10 @@
 											console.log('Status changed to:', value);
 										}}
 									>
-										<Select.Trigger class="w-full" {...props}
-											>{$formData.status ? $formData.status : 'Select Status'}</Select.Trigger
+										<Select.Trigger class="w-full capitalize" {...props}
+											>{$formData.status
+												? $formData.status.replace(/[-_]/g, ' ')
+												: 'Select Status'}</Select.Trigger
 										>
 										<Select.Content>
 											<Select.Group>
@@ -261,9 +263,9 @@
 											console.log('Payment status changed to:', value);
 										}}
 									>
-										<Select.Trigger class="w-full" {...props}
+										<Select.Trigger class="w-full capitalize" {...props}
 											>{$formData.payment_status
-												? $formData.payment_status
+												? $formData.payment_status.replace(/[-_]/g, ' ')
 												: 'Select Status'}</Select.Trigger
 										>
 										<Select.Content>
