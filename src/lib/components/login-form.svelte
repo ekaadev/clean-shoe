@@ -9,6 +9,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from '../../routes/auth/$types';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import { browser } from '$app/environment';
 
 	let { form }: { form: ActionData } = $props();
 	let isLoading = $state(false);
@@ -32,6 +33,10 @@
 					description: action === 'login' ? 'Welcome back!' : 'Welcome to Clean Shoe!',
 					duration: 3000
 				});
+
+        if (browser) {
+					window.location.href = '/';
+        }
 			}
 
 			await update();
