@@ -9,8 +9,8 @@
 </script>
 
 <div class="px-4 lg:px-6">
-	<h1 class="mt-4 text-3xl font-semibold tracking-tight transition-colors">Incoming Order</h1>
-	<p class="text-muted-foreground text-sm">Review and manage the latest orders from customers.</p>
+	<h1 class="mt-4 text-3xl font-semibold tracking-tight transition-colors">Pesanan Masuk</h1>
+	<p class="text-muted-foreground text-sm">Cek & kelola pesanan terbaru dari pelanggan.</p>
 	<a href="/admin/orders" class="text-sm hover:underline">See Detail </a>
 	<div class="mt-4 overflow-hidden rounded-lg border">
 		<Table.Root>

@@ -193,8 +193,8 @@
 
 <div class="flex w-full flex-col justify-start gap-6">
 	<div class="flex flex-col gap-2 px-4 lg:px-6">
-		<h1 class="text-3xl font-semibold tracking-tight transition-colors">Order Management</h1>
-		<p class="text-muted-foreground text-sm">Review and manage the latest orders from customers.</p>
+		<h1 class="text-3xl font-semibold tracking-tight transition-colors">Kelola Pesanan</h1>
+		<p class="text-muted-foreground text-sm">Pantau & kelola semua pesanan pelanggan di sini.</p>
 		<Input
 			placeholder="Filter orders..."
 			value={(table.getColumn('invoice_id')?.getFilterValue() as string) ?? ''}

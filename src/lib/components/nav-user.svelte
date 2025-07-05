@@ -85,17 +85,17 @@
 				<DropdownMenu.Group>
 					<DropdownMenu.Item class="w-full">
 						<UserCircleIcon />
-						<a href="/profile" class="w-full">My Account</a>
+						<a href="/profile" class="w-full">Profil</a>
 					</DropdownMenu.Item>
 					<DropdownMenu.Item>
 						<LogoutIcon />
-						<a href="/" class="w-full">Back to services</a>
+						<a href="/" class="w-full">Kembali ke beranda</a>
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onclick={logout} class="tex-red-500 cursor-pointer dark:text-red-400">
 					<LogoutIcon />
-					Logout
+					Keluar
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>

@@ -13,7 +13,7 @@
 >
 	<Card.Root class="@container/card">
 		<Card.Header>
-			<Card.Description>Total Revenue</Card.Description>
+			<Card.Description>Total Pendapatan</Card.Description>
 			<Card.Title class="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
 				{toIndonesianCurrency(page.data?.totalRevenue || 0)}
 			</Card.Title>
@@ -24,8 +24,8 @@
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
-			<div class="line-clamp-1 flex gap-2 font-medium">Trending up this month</div>
-			<div class="text-muted-foreground">Visitors for the last 1 month</div>
+			<div class="line-clamp-1 flex gap-2 font-medium">Lagi naik nih di bulan ini</div>
+			<div class="text-muted-foreground">Tetap pertahanin ya</div>
 		</Card.Footer>
 	</Card.Root>
 	<Card.Root class="@container/card">
@@ -42,8 +42,8 @@
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
-			<div class="line-clamp-1 flex gap-2 font-medium">Total order in this month</div>
-			<div class="text-muted-foreground">Keep strong and grow up</div>
+			<div class="line-clamp-1 flex gap-2 font-medium">Total order dalam 1 bulan terakhir</div>
+			<div class="text-muted-foreground">Tetap semangat & terus berkembang!</div>
 		</Card.Footer>
 	</Card.Root>
 	<Card.Root class="@container/card">
@@ -60,8 +60,8 @@
 			</Card.Action>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
-			<div class="line-clamp-1 flex gap-2 font-medium">Strong user retention</div>
-			<div class="text-muted-foreground">Engagement exceed targets</div>
+			<div class="line-clamp-1 flex gap-2 font-medium">Pengguna setia makin banyak</div>
+			<div class="text-muted-foreground">Buat bisnismu menjadi semakin menarik</div>
 		</Card.Footer>
 	</Card.Root>
 	<Card.Root class="@container/card">
@@ -72,8 +72,8 @@
 			</Card.Title>
 		</Card.Header>
 		<Card.Footer class="flex-col items-start gap-1.5 text-sm">
-			<div class="line-clamp-1 flex gap-2 font-medium">Waiting for staff action</div>
-			<div class="text-muted-foreground">Please take action for order</div>
+			<div class="line-clamp-1 flex gap-2 font-medium">Menunggu tindakan dari tim</div>
+			<div class="text-muted-foreground">Yuk, proses pesanannya sekarang</div>
 		</Card.Footer>
 	</Card.Root>
 </div>

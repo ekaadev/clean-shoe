@@ -66,10 +66,10 @@
 
 <Card.Root class="@container/card">
 	<Card.Header>
-		<Card.Title>Total Orders in Chart</Card.Title>
+		<Card.Title>Grafik Total Pesanan</Card.Title>
 		<Card.Description>
-			<span class="hidden @[540px]/card:block"> Total for the last 1 months </span>
-			<span class="@[540px]/card:hidden">Last 1 months</span>
+			<span class="hidden @[540px]/card:block"> Selama 1 Bulan Terakhir </span>
+			<span class="@[540px]/card:hidden">1 Bulan Terakhir</span>
 		</Card.Description>
 		<Card.Action>
 			<ToggleGroup.Root
