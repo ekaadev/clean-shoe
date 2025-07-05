@@ -16,9 +16,9 @@
 
 <div class="flex flex-col items-center justify-center gap-8">
 	<div class="flex flex-col items-center gap-1 text-center">
-		<h1 class="text-3xl font-bold lg:text-4xl">Check Your Invoices Easily and Quickly</h1>
+		<h1 class="text-3xl font-bold lg:text-4xl">Cek Pesanan Kamu, Cepat & Praktis</h1>
 		<p class="text-muted-foreground mt-2 text-base lg:text-lg">
-			View the details of your purchase using the Invoice number.
+			Masukkan nomor invoice buat lihat detail pembelianmu.
 		</p>
 	</div>
 	<Card.Root class="w-full max-w-lg">
@@ -27,18 +27,18 @@
 				<Form.Field {form} name="id">
 					<Form.Control>
 						{#snippet children({ props })}
-							<Form.Label>Check detail invoice here</Form.Label>
+							<Form.Label>Cek detail pesanan di sini</Form.Label>
 							<Input
 								{...props}
 								bind:value={$formData.id}
-								placeholder="Place your invoice number here."
+								placeholder="Masukkan nomor invoice"
 								required
 							/>
 						{/snippet}
 					</Form.Control>
 					<Form.FieldErrors />
 				</Form.Field>
-				<Form.Button class="w-full" type="submit">Check Invoice</Form.Button>
+				<Form.Button class="w-full" type="submit">Cek Pesanan</Form.Button>
 			</form>
 		</Card.Content>
 	</Card.Root>
