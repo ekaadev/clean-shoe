@@ -1,4 +1,6 @@
 <script lang="ts">
+	import CircleAlertIcon from '@lucide/svelte/icons/circle-alert';
+	import * as Alert from '@/components/ui/alert/index';
 	import type { PageData } from './$types.js';
 	import FormCheckout from '@/components/checkout/form-checkout.svelte';
 
@@ -19,8 +21,16 @@
 	<div class="container mx-auto flex flex-1 flex-col px-4 md:px-8">
 		<div class="flex flex-col px-2 py-5 md:grid md:grid-cols-3 md:gap-x-12 md:px-8 md:pb-0">
 			<div class="order-2 p-3 md:col-span-1 md:p-0 lg:p-6 lg:pt-8">
-				<div class="md:sticky md:top-24">
+				<div class="flex flex-col gap-4 md:sticky md:top-24">
 					<OrderSummary />
+					<Alert.Root variant="destructive" class="shadow-md">
+						<CircleAlertIcon class="size-4" />
+						<Alert.Title>Aturan Pengantaran dan Pengambilan</Alert.Title>
+						<Alert.Description
+							>Biaya tambahan mungkin berlaku untuk di luar area Surabaya Timur, Surabaya Selatan
+							dan Surabaya Utara.</Alert.Description
+						>
+					</Alert.Root>
 				</div>
 			</div>
 
