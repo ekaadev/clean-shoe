@@ -27,13 +27,13 @@
 				<ul class="flex flex-col gap-4 text-sm">
 					<li class="text-muted-foreground">Index</li>
 					<li class="hover:underline">
-						<a href="/">Home</a>
+						<a href="/">Beranda</a>
 					</li>
 					<li class="hover:underline">
-						<a href="/services">Services</a>
+						<a href="/services">Layanan</a>
 					</li>
 					<li class="hover:underline">
-						<a href="/orders">Check Order</a>
+						<a href="/orders">Cek Pesanan</a>
 					</li>
 				</ul>
 			</div>
