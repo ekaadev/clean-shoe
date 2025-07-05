@@ -1,6 +1,5 @@
 <script lang="ts">
 	import * as Card from '@/components/ui/card/index';
-	import { Toaster } from 'svelte-sonner';
 	import OrderPanel from '@/components/order-panel.svelte';
 	import * as Accordion from '$lib/components/ui/accordion/index';
 	import * as Carousel from '$lib/components/ui/carousel/index';
@@ -15,53 +14,76 @@
 
 	const { data } = $props();
 
-	onMount(() => {
-		invalidateAll();
-	});
-
-	$inspect(data)
-
 	// ini untuk mengambil layanan lain yang tidak sama dengan layanan saat ini
 	const other_services = $derived(data.services.filter((s: any) => s.id !== data.service.id));
 
-	// FAQ DUMMY
-	const faqItems = [
+	const faq = [
 		{
-			value: 'item-1',
-			title: 'Cleaning Part',
-			content:
-				'Bagian sepatu yang dibersihkan dalam layanan ini meliputi: <strong>Upper Sole</strong>, <strong>Middle Sole</strong>, <strong>Out Sole</strong>, <strong>In Sole</strong>, dan <strong>Laces</strong>.'
+			id: '2e199160-62b6-4b67-b8a2-fc4eeee0ee2d',
+			servicePart:
+				'Bagian sepatu yang dibersihkan dalam layanan ini meliputi: <strong>Upper Sole</strong>, <strong>Middle Sole</strong>, dan <strong>Out Sole</strong>',
+			shoeMaterial:
+				'Layanan cocok untuk berbagai jenis material sepatu seperti: <strong>Canvas, Suede, Leather, Nubuck</strong>, dan bahan lainnya.',
+			onSiteAvailability:
+				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu',
+			duration:
+				'Estimasi pengerjaan adalah <strong>1 - 2 hari</strong> (tidak termasuk hari libur).',
+			price:
+				'Harga layanan Fast Clean adalah sebesar <strong>Rp 20.000</strong> per pasang sepatu.',
+			pickupDelivery:
+				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur, Surabaya Selatan dan Surabaya Utara. Biaya tambahan mungkin berlaku untuk di luar area tersebut.'
 		},
 		{
-			value: 'item-2',
-			title: 'Shoe Material',
-			content:
-				'Layanan cocok untuk berbagai jenis material sepatu seperti: <strong>Canvas, Suede, Leather, Nubuck</strong>, dan bahan lainnya.'
+			id: '3613d4ef-0651-4323-8678-f4a83e7ff5a9',
+			servicePart:
+				'Bagian sepatu yang dibersihkan dalam layanan ini semua area sepatu, termasuk: <strong>Upper Sole</strong>, <strong>Middle Sole</strong>, <strong>Out Sole</strong>, <strong>In Sole</strong>, dan <strong>Laces</strong>.',
+			shoeMaterial:
+				'Layanan cocok untuk berbagai jenis material sepatu seperti: <strong>Canvas, Suede, Leather, Nubuck</strong>, dan bahan lainnya.',
+			onSiteAvailability:
+				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu',
+			duration:
+				'Estimasi pengerjaan adalah <strong>3 - 4 hari</strong> (tidak termasuk hari libur).',
+			price:
+				'Harga layanan Deep Clean adalah sebesar <strong>Rp 25.000</strong> per pasang sepatu.',
+			pickupDelivery:
+				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur, Surabaya Selatan dan Surabaya Utara. Biaya tambahan mungkin berlaku untuk di luar area tersebut.'
 		},
 		{
-			value: 'item-3',
-			title: 'On-site Availability',
-			content:
-				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu.'
+			id: '5c4c1ea2-544e-4e15-bfe7-d6f5c10b704e',
+			servicePart:
+				'Bagian sepatu yang dibersihkan dalam layanan ini semua area sepatu, termasuk: <strong>Upper Sole</strong>, <strong>Middle Sole</strong>, <strong>Out Sole</strong>, <strong>In Sole</strong>, dan <strong>Laces</strong>.',
+			shoeMaterial:
+				'Layanan cocok untuk berbagai jenis material sepatu selain kulit seperti: <strong>Canvas, Suede, Nubuck</strong>, dan bahan lainnya.',
+			onSiteAvailability:
+				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu',
+			duration:
+				'Estimasi pengerjaan adalah <strong>5 - 6 hari</strong> (tidak termasuk hari libur).',
+			price:
+				'Harga layanan Unyellowing adalah sebesar <strong>Rp 45.000</strong> per pasang sepatu.',
+			pickupDelivery:
+				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur, Surabaya Selatan dan Surabaya Utara. Biaya tambahan mungkin berlaku untuk di luar area tersebut.'
 		},
 		{
-			value: 'item-4',
-			title: 'Duration',
-			content: 'Estimasi pengerjaan adalah <strong>2 - 3 hari</strong> (tidak termasuk hari libur).'
-		},
-		{
-			value: 'item-5',
-			title: 'Price',
-			content:
-				'Harga layanan Deep Clean adalah sebesar <strong>Rp 30.000</strong> per pasang sepatu.'
-		},
-		{
-			value: 'item-6',
-			title: 'Pick Up & Delivery',
-			content:
-				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur dan sekitarnya. Biaya tambahan mungkin berlaku untuk area tertentu.'
+			id: '482f04af-7d78-4c0d-b355-af0b179ac0f5',
+			servicePart:
+				'Bagian sepatu yang diperbaiki dalam layanan ini meliputi: <strong>Middle Sole</strong>, <strong>Out Sole</strong> dan tergantung pada kondisi sepatu.',
+			shoeMaterial:
+				'Layanan cocok untuk berbagai jenis material sepatu selain suede seperti: <strong>Canvas, Leather, Nubuck</strong>, dan bahan lainnya.',
+			onSiteAvailability:
+				'Layanan <strong>tidak dapat ditunggu</strong>. Proses pembersihan dilakukan secara menyeluruh dan membutuhkan waktu pengerjaan tertentu',
+			duration:
+				'Estimasi pengerjaan adalah <strong>7 - 8 hari</strong> (tidak termasuk hari libur).',
+			price: 'Harga layanan Reglue adalah sebesar <strong>Rp 18.000</strong> per pasang sepatu.',
+			pickupDelivery:
+				'Layanan ini mencakup <strong>pick up</strong> dan <strong>delivery</strong> di area Surabaya Timur, Surabaya Selatan dan Surabaya Utara. Biaya tambahan mungkin berlaku untuk di luar area tersebut.'
 		}
 	];
+
+	const faqFiltered = $derived(faq.filter((item) => item.id === data.service.id));
+
+	onMount(() => {
+		invalidateAll();
+	});
 </script>
 
 <svelte:head>
@@ -112,24 +134,56 @@
 				<!-- Accordion pertanyaan -->
 				<div class="flex max-w-full flex-col gap-4">
 					<div>
-						<h2 class="text-2xl font-semibold">FAQ</h2>
+						<h2 class="text-2xl font-semibold">Apa yang bisa kami bantu?</h2>
 					</div>
 					<Accordion.Root type="single" class="w-full">
-						{#each faqItems as item}
-							<Accordion.Item value={item.value}>
-								<Accordion.Trigger class="text-md sm:text-md">{item.title}</Accordion.Trigger>
-								<Accordion.Content class="text-md flex flex-col gap-4">
-									{@html `<p class="text-sm">${item.content}</p>`}
-								</Accordion.Content>
-							</Accordion.Item>
-						{/each}
+						<Accordion.Item value="value-1">
+							<Accordion.Trigger class="text-md sm:text-md"
+								>Bagian yang dikerjakan</Accordion.Trigger
+							>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].servicePart || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
+						<Accordion.Item value="value-2">
+							<Accordion.Trigger class="text-md sm:text-md"
+								>Bahan sepatu yang cocok</Accordion.Trigger
+							>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].shoeMaterial || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
+						<Accordion.Item value="value-3">
+							<Accordion.Trigger class="text-md sm:text-md">Tipe layanan</Accordion.Trigger>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].onSiteAvailability || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
+						<Accordion.Item value="value-4">
+							<Accordion.Trigger class="text-md sm:text-md">Waktu pengerjaan</Accordion.Trigger>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].duration || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
+						<Accordion.Item value="value-5">
+							<Accordion.Trigger class="text-md sm:text-md">Harga</Accordion.Trigger>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].price || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
+						<Accordion.Item value="value-6">
+							<Accordion.Trigger class="text-md sm:text-md">Jemput dan antar</Accordion.Trigger>
+							<Accordion.Content class="text-md flex flex-col gap-4">
+								{@html `<p class="text-sm">${faqFiltered[0].pickupDelivery || 'Item tidak teridentifikasi'}</p>`}
+							</Accordion.Content>
+						</Accordion.Item>
 					</Accordion.Root>
 				</div>
 
 				<!-- Other Services -->
 				<div class="flex flex-col gap-4">
 					<div>
-						<h2 class="text-2xl font-semibold">Other Services</h2>
+						<h2 class="text-2xl font-semibold">Layanan lainnya</h2>
 					</div>
 					<div class="w-full overflow-x-auto">
 						<div class="flex w-max gap-3 pt-4 pb-6">
@@ -166,13 +220,13 @@
 											<!-- Footer info tetap di bawah -->
 											<div class="mt-2 flex w-full flex-col gap-1">
 												<div class="flex flex-row items-center justify-between">
-													<p class="text-muted-foreground text-xs">Estimated Days</p>
+													<p class="text-muted-foreground text-xs">Estimasi Pengerjaan</p>
 													<p class="text-xs font-semibold">
-														{service.estimated_days} Days
+														{service.estimated_days} Hari
 													</p>
 												</div>
 												<div class="flex flex-row items-center justify-between">
-													<p class="text-muted-foreground text-xs">Price</p>
+													<p class="text-muted-foreground text-xs">Harga</p>
 													<p class="text-xs font-semibold">
 														{toIndonesianCurrency(service.price)}
 													</p>
@@ -249,24 +303,53 @@
 			<!-- Accordion pertanyaan -->
 			<div class="flex max-w-[1000px] flex-col gap-4">
 				<div>
-					<h2 class="text-3xl font-semibold">FAQ</h2>
+					<h2 class="text-3xl font-semibold">Apa yang bisa kami bantu?</h2>
 				</div>
 				<Accordion.Root type="single" class="w-full max-w-4xl">
-					{#each faqItems as item}
-						<Accordion.Item value={item.value}>
-							<Accordion.Trigger class="text-lg sm:text-xl">{item.title}</Accordion.Trigger>
-							<Accordion.Content class="flex flex-col gap-4 text-balance">
-								{@html `<p class="text-lg">${item.content}</p>`}
-							</Accordion.Content>
-						</Accordion.Item>
-					{/each}
+					<Accordion.Item value="item-1">
+						<Accordion.Trigger class="text-lg sm:text-xl">Bagian yang dikerjakan</Accordion.Trigger>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].servicePart || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item value="item-2">
+						<Accordion.Trigger class="text-lg sm:text-xl">Bahan sepatu yang cocok</Accordion.Trigger
+						>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].shoeMaterial || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item value="item-3">
+						<Accordion.Trigger class="text-lg sm:text-xl">Tipe layanan</Accordion.Trigger>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].onSiteAvailability || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item value="item-4">
+						<Accordion.Trigger class="text-lg sm:text-xl">Waktu pengerjaan</Accordion.Trigger>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].duration || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item value="item-5">
+						<Accordion.Trigger class="text-lg sm:text-xl">Harga</Accordion.Trigger>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].price || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
+					<Accordion.Item value="item-6">
+						<Accordion.Trigger class="text-lg sm:text-xl">Jemput dan antar</Accordion.Trigger>
+						<Accordion.Content class="flex flex-col gap-4 text-balance">
+							{@html `<p class="text-lg">${faqFiltered[0].pickupDelivery || 'Item tidak teridentifikasi'}</p>`}
+						</Accordion.Content>
+					</Accordion.Item>
 				</Accordion.Root>
 			</div>
 
 			<!-- Other Services -->
 			<div class="flex flex-col gap-4">
 				<div>
-					<h2 class="text-3xl font-semibold">Other Services</h2>
+					<h2 class="text-3xl font-semibold">Layanan lainnya</h2>
 				</div>
 				<div class="w-full overflow-x-auto">
 					<div class="flex w-max gap-4 pt-4 pb-6">
@@ -301,13 +384,15 @@
 										<!-- Footer info tetap di bawah -->
 										<div class="mt-2 flex w-full flex-col gap-2">
 											<div class="flex flex-row items-center justify-between">
-												<p class="text-muted-foreground text-sm font-semibold">Estimated Days</p>
+												<p class="text-muted-foreground text-sm font-semibold">
+													Estimasi Pengerjaan
+												</p>
 												<p class="text-sm font-semibold">
-													{service.estimated_days} Days
+													{service.estimated_days} Hari
 												</p>
 											</div>
 											<div class="flex flex-row items-center justify-between">
-												<p class="text-muted-foreground text-sm font-semibold">Price</p>
+												<p class="text-muted-foreground text-sm font-semibold">Harga</p>
 												<p class="text-sm font-semibold">
 													{toIndonesianCurrency(service.price)}
 												</p>
