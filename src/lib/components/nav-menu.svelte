@@ -51,7 +51,7 @@
 				// console.error('logout error:', error);
 				return;
 			} else {
-				await goto('/auth');
+				await goto('/auth/login');
 			}
 		} catch (error) {
 			toast.error('Gagal keluar. Silakan coba lagi.');
@@ -147,8 +147,8 @@
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
 				{:else}
-					<Button variant="outline" href="/auth" class="w-full">Masuk</Button>
-					<Button href="/auth" class="w-full">Daftar</Button>
+					<Button variant="outline" href="/auth/login" class="w-full">Masuk</Button>
+					<Button href="/auth/signup" class="w-full">Daftar</Button>
 				{/if}
 			</Drawer.Footer>
 		</Drawer.Content>
@@ -178,7 +178,9 @@
 
 			<div class="flex flex-row items-center gap-2">
 				<a href="/checkout" class="relative">
-					<Button variant="outline" size="icon"><ShoppingCartIcon class="h-5 w-5" /></Button>
+					<Button variant="outline" size="icon" class="cursor-pointer"
+						><ShoppingCartIcon class="h-5 w-5" /></Button
+					>
 					{#if $cartItemCount > 0}
 						<span
 							class="bg-primary text-primary-foreground absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full text-xs"
@@ -232,8 +234,8 @@
 						</DropdownMenu.Content>
 					</DropdownMenu.Root>
 				{:else}
-					<Button variant="outline" href="/auth">Masuk</Button>
-					<Button href="/auth">Daftar</Button>
+					<Button variant="outline" href="/auth/login">Masuk</Button>
+					<Button href="/auth/signup">Daftar</Button>
 				{/if}
 			</div>
 		</div>
