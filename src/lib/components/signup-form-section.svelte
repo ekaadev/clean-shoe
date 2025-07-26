@@ -24,11 +24,13 @@
 				const actionType = 'Akun berhasil dibuat. Yuk, cek email kamu buat konfirmasi!';
 				toast.success(actionType, {
 					description: 'Selamat datang di Clean Shoe!',
-					duration: 4000
+					duration: 6000
 				});
 
 				if (browser) {
-					window.location.href = '/auth/login';
+					setTimeout(() => {
+						window.location.href = '/auth/login';
+					}, 2000); // delay 2 detik
 				}
 			}
 
