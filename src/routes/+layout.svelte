@@ -20,5 +20,5 @@
 </script>
 
 <ModeWatcher defaultMode="dark" />
-<Toaster richColors position="bottom-right" />
+<Toaster richColors position="top-center" />
 {@render children()}
