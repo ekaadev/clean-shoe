@@ -21,6 +21,6 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
-		redirect(303, `/orders/${form.data.id}`);
+		redirect(303, `/orders/${form.data.id?.toUpperCase()}`);
 	}
 };
