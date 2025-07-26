@@ -43,26 +43,20 @@
 					</div>
 					<span class="sr-only">Reset Password</span>
 				</a>
-				<h1 class="text-xl font-medium">Reset your password</h1>
+				<h1 class="text-xl font-medium">Reset Password Kamu</h1>
 			</div>
 			<div class="flex flex-col gap-6">
 				<div class="grid gap-3">
 					<Label for="email">Email</Label>
-					<Input
-						id="email"
-						type="email"
-						placeholder="Enter your email address"
-						required
-						name="email"
-					/>
+					<Input id="email" type="email" placeholder="Masukkan email kamu" required name="email" />
 				</div>
-				<Button type="submit" class="w-full" disabled={isLoading}>Send</Button>
+				<Button type="submit" class="w-full" disabled={isLoading}>Kirim</Button>
 			</div>
 		</div>
 	</form>
 	<div
 		class="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4"
 	>
-		Gak punya akun? <a href="/auth" class="text-blue-600">Daftar akun dulu</a>
+		Belum punya akun ya? <a href="/auth/signup" class="text-blue-600">Daftar</a>
 	</div>
 </div>
