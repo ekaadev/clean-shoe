@@ -11,6 +11,7 @@
 	import LogoutIcon from '@tabler/icons-svelte/icons/logout';
 	import UserCircleIcon from '@tabler/icons-svelte/icons/user-circle';
 	import ShoppingCartIcon from '@lucide/svelte/icons/shopping-cart';
+	import History from '@lucide/svelte/icons/history';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { toast } from 'svelte-sonner';
@@ -138,6 +139,12 @@
 										<a href="/admin">Kembali ke dashboard</a>
 									</DropdownMenu.Item>
 								{/if}
+								{#if page.data.user}
+									<DropdownMenu.Item>
+										<History />
+										<a href="/histories">Histori Order</a>
+									</DropdownMenu.Item>
+								{/if}
 								<DropdownMenu.Separator />
 								<DropdownMenu.Item onclick={logout}>
 									<LogoutIcon />
@@ -220,6 +227,12 @@
 									<DropdownMenu.Item>
 										<LogoutIcon />
 										<a href="/admin" class="w-full">Kembali ke dashboard</a>
+									</DropdownMenu.Item>
+								{/if}
+								{#if page.data.user}
+									<DropdownMenu.Item>
+										<History />
+										<a href="/histories" class="w-full">Histori Order</a>
 									</DropdownMenu.Item>
 								{/if}
 								<DropdownMenu.Separator />
