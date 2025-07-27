@@ -1,25 +1,6 @@
 <script lang="ts" module>
 	export const columns: ColumnDef<Schema>[] = [
 		{
-			id: 'select',
-			header: ({ table }) =>
-				renderComponent(DataTableCheckbox, {
-					checked: table.getIsAllPageRowsSelected(),
-					indeterminate: table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected(),
-					onCheckedChange: (value) => table.toggleAllPageRowsSelected(!!value),
-					'aria-label': 'Select all'
-				}),
-			cell: ({ row }) =>
-				renderComponent(DataTableCheckbox, {
-					checked: row.getIsSelected(),
-					onCheckedChange: (value) => row.toggleSelected(!!value),
-					'aria-label': 'Select row'
-				}),
-			enableSorting: false,
-			enableHiding: false,
-			size: 50
-		},
-		{
 			accessorKey: 'invoice_id',
 			header: 'Invoice ID',
 			enableHiding: false,
@@ -40,13 +21,23 @@
 			accessorKey: 'status',
 			header: 'Status',
 			cell: ({ row }) => renderSnippet(DataTableStatus, { row }),
-			size: 150
+			size: 150,
+			filterFn: (row, columnId, filterValue) => {
+				if (!filterValue || filterValue === 'all') return true;
+				const cellValue = String(row.getValue(columnId) ?? '');
+				return cellValue === filterValue;
+			}
 		},
 		{
 			accessorKey: 'payment_status',
 			header: 'Payment',
 			cell: ({ row }) => renderSnippet(DataTablePaymentStatus, { row }),
-			size: 150
+			size: 150,
+			filterFn: (row, columnId, filterValue) => {
+				if (!filterValue || filterValue === 'all') return true;
+				const cellValue = String(row.getValue(columnId) ?? '');
+				return cellValue === filterValue;
+			}
 		},
 		{
 			accessorKey: 'total_amount',
@@ -73,7 +64,6 @@
 		type ColumnFiltersState,
 		type PaginationState,
 		type Row,
-		type RowSelectionState,
 		type SortingState,
 		type VisibilityState
 	} from '@tanstack/table-core';
@@ -81,12 +71,12 @@
 	import type { Schema } from './schemas';
 	import { createSvelteTable } from '@/components/ui/data-table/data-table.svelte';
 	import * as Table from '@/components/ui/table/index';
-	import DataTableCheckbox from './data-table-checkbox.svelte';
 	import DataTableCellViewer from './data-table-cell-viewer.svelte';
 	import { Input } from '@/components/ui/input/index';
 	import { Button } from '@/components/ui/button/index';
 	import { Badge } from '@/components/ui/badge/index';
 	import { Label } from '@/components/ui/label/index';
+	import * as Select from '@/components/ui/select/index';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -106,8 +96,25 @@
 	});
 	let sorting = $state<SortingState>([]);
 	let columnFilters = $state<ColumnFiltersState>([]);
-	let rowSelection = $state<RowSelectionState>({});
 	let columnVisibility = $state<VisibilityState>({});
+
+	// Filter options
+	const statusOptions = [
+		{ value: 'all', label: 'All Status' },
+		{ value: 'pending', label: 'Pending' },
+		{ value: 'confirmed', label: 'Confirmed' },
+		{ value: 'processing', label: 'Processing' },
+		{ value: 'ready_for_delivery', label: 'Ready for Delivery' },
+		{ value: 'delivered', label: 'Delivered' },
+		{ value: 'cancelled', label: 'Cancelled' }
+	];
+
+	const paymentStatusOptions = [
+		{ value: 'all', label: 'All Payment' },
+		{ value: 'pending', label: 'Pending' },
+		{ value: 'paid', label: 'Paid' },
+		{ value: 'failed', label: 'Failed' }
+	];
 
 	// Helper function to navigate to a new page
 	const navigateToPage = (newPage: number) => {
@@ -134,15 +141,11 @@
 			get columnVisibility() {
 				return columnVisibility;
 			},
-			get rowSelection() {
-				return rowSelection;
-			},
 			get columnFilters() {
 				return columnFilters;
 			}
 		},
 		getRowId: (row) => row.id.toString(),
-		enableRowSelection: true,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFacetedRowModel: getFacetedRowModel(),
@@ -180,13 +183,6 @@
 			} else {
 				columnVisibility = updater;
 			}
-		},
-		onRowSelectionChange: (updater) => {
-			if (typeof updater === 'function') {
-				rowSelection = updater(rowSelection);
-			} else {
-				rowSelection = updater;
-			}
 		}
 	});
 </script>
@@ -195,17 +191,77 @@
 	<div class="flex flex-col gap-2 px-4 lg:px-6">
 		<h1 class="text-3xl font-semibold tracking-tight transition-colors">Kelola Pesanan</h1>
 		<p class="text-muted-foreground text-sm">Pantau & kelola semua pesanan pelanggan di sini.</p>
-		<Input
-			placeholder="Filter orders..."
-			value={(table.getColumn('invoice_id')?.getFilterValue() as string) ?? ''}
-			onchange={(e) => {
-				table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
-			}}
-			oninput={(e) => {
-				table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
-			}}
-			class="max-w-sm"
-		/>
+
+		<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
+			<Input
+				placeholder="Search by Invoice ID..."
+				value={(table.getColumn('invoice_id')?.getFilterValue() as string) ?? ''}
+				onchange={(e) => {
+					table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
+				}}
+				oninput={(e) => {
+					table.getColumn('invoice_id')?.setFilterValue(e.currentTarget.value);
+				}}
+				class="max-w-sm"
+			/>
+
+			<div class="flex gap-2">
+				<!-- Status Filter -->
+				<Select.Root
+					type="single"
+					onValueChange={(value) => {
+						if (value === 'all') {
+							table.getColumn('status')?.setFilterValue('');
+						} else {
+							table.getColumn('status')?.setFilterValue(value);
+						}
+					}}
+				>
+					<Select.Trigger class="w-[180px]">
+						<span data-slot="select-value">Filter by Status</span>
+					</Select.Trigger>
+					<Select.Content>
+						{#each statusOptions as option}
+							<Select.Item value={option.value}>{option.label}</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+
+				<!-- Payment Status Filter -->
+				<Select.Root
+					type="single"
+					onValueChange={(value) => {
+						if (value === 'all') {
+							table.getColumn('payment_status')?.setFilterValue('');
+						} else {
+							table.getColumn('payment_status')?.setFilterValue(value);
+						}
+					}}
+				>
+					<Select.Trigger class="w-[180px]">
+						<span data-slot="select-value">Filter by Payment</span>
+					</Select.Trigger>
+					<Select.Content>
+						{#each paymentStatusOptions as option}
+							<Select.Item value={option.value}>{option.label}</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+
+				<!-- Clear Filters Button -->
+				<Button
+					variant="outline"
+					onclick={() => {
+						table.getColumn('invoice_id')?.setFilterValue('');
+						table.getColumn('status')?.setFilterValue('');
+						table.getColumn('payment_status')?.setFilterValue('');
+					}}
+					class="px-3"
+				>
+					Clear
+				</Button>
+			</div>
+		</div>
 	</div>
 	<div class="flex items-start justify-between px-4 lg:px-6">
 		<div class="relative flex w-full flex-col gap-4 overflow-auto rounded-lg border">
@@ -229,7 +285,7 @@
 				<Table.Body class="**:data-[slot=table-cell]:first:w-8">
 					{#if table.getRowModel().rows?.length}
 						{#each table.getRowModel().rows as row (row.id)}
-							<Table.Row data-state={row.getIsSelected() && 'selected'}>
+							<Table.Row>
 								{#each row.getVisibleCells() as cell (cell.id)}
 									<Table.Cell style="min-width: {cell.column.getSize()}px" class="text-wrap">
 										<FlexRender content={cell.column.columnDef.cell} context={cell.getContext()} />
@@ -248,8 +304,7 @@
 	</div>
 	<div class="flex items-center justify-between px-6 lg:px-10">
 		<div class="text-muted-foreground hidden flex-1 text-sm lg:flex">
-			{table.getFilteredSelectedRowModel().rows.length} of
-			{page.data.pagination?.totalCount || 0} row(s) selected.
+			Showing {page.data.pagination?.totalCount || 0} total orders.
 		</div>
 		<div class="flex w-full items-center gap-8 lg:w-fit">
 			<div class="hidden items-center gap-2 lg:flex">
