@@ -32,6 +32,7 @@
 		"@tanstack/table-core": "^8.21.3",
 		"@types/d3-scale": "^4.0.9",
 		"@types/d3-shape": "^3.1.7",
+		"@types/papaparse": "^5.3.16",
 		"bits-ui": "^2.8.4",
 		"clsx": "^2.1.1",
 		"d3-scale": "^4.0.2",
@@ -66,6 +67,7 @@
 		"@supabase/supabase-js": "^2.49.4",
 		"@tabler/icons-svelte": "^3.33.0",
 		"dotenv": "^16.5.0",
+		"papaparse": "^5.5.3",
 		"uuid": "^11.1.0",
 		"xendit-node": "^7.0.0"
 	}
