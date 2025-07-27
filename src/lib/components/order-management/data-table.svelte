@@ -205,50 +205,52 @@
 				class="max-w-sm"
 			/>
 
-			<div class="flex gap-2">
-				<!-- Status Filter -->
-				<Select.Root
-					type="single"
-					onValueChange={(value) => {
-						if (value === 'all') {
-							table.getColumn('status')?.setFilterValue('');
-						} else {
-							table.getColumn('status')?.setFilterValue(value);
-						}
-					}}
-				>
-					<Select.Trigger class="w-[180px]">
-						<span data-slot="select-value">Filter by Status</span>
-					</Select.Trigger>
-					<Select.Content>
-						{#each statusOptions as option}
-							<Select.Item value={option.value}>{option.label}</Select.Item>
-						{/each}
-					</Select.Content>
-				</Select.Root>
+			<div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+				<div class="flex gap-2">
+					<!-- Status Filter -->
+					<Select.Root
+						type="single"
+						onValueChange={(value) => {
+							if (value === 'all') {
+								table.getColumn('status')?.setFilterValue('');
+							} else {
+								table.getColumn('status')?.setFilterValue(value);
+							}
+						}}
+					>
+						<Select.Trigger class="w-[180px]">
+							<span data-slot="select-value">Filter by Status</span>
+						</Select.Trigger>
+						<Select.Content>
+							{#each statusOptions as option}
+								<Select.Item value={option.value}>{option.label}</Select.Item>
+							{/each}
+						</Select.Content>
+					</Select.Root>
 
-				<!-- Payment Status Filter -->
-				<Select.Root
-					type="single"
-					onValueChange={(value) => {
-						if (value === 'all') {
-							table.getColumn('payment_status')?.setFilterValue('');
-						} else {
-							table.getColumn('payment_status')?.setFilterValue(value);
-						}
-					}}
-				>
-					<Select.Trigger class="w-[180px]">
-						<span data-slot="select-value">Filter by Payment</span>
-					</Select.Trigger>
-					<Select.Content>
-						{#each paymentStatusOptions as option}
-							<Select.Item value={option.value}>{option.label}</Select.Item>
-						{/each}
-					</Select.Content>
-				</Select.Root>
+					<!-- Payment Status Filter -->
+					<Select.Root
+						type="single"
+						onValueChange={(value) => {
+							if (value === 'all') {
+								table.getColumn('payment_status')?.setFilterValue('');
+							} else {
+								table.getColumn('payment_status')?.setFilterValue(value);
+							}
+						}}
+					>
+						<Select.Trigger class="w-[180px]">
+							<span data-slot="select-value">Filter by Payment</span>
+						</Select.Trigger>
+						<Select.Content>
+							{#each paymentStatusOptions as option}
+								<Select.Item value={option.value}>{option.label}</Select.Item>
+							{/each}
+						</Select.Content>
+					</Select.Root>
+				</div>
 
-				<!-- Clear Filters Button -->
+				<!-- Clear Filters Button - Mobile: separate row, Desktop: same row -->
 				<Button
 					variant="outline"
 					onclick={() => {
@@ -256,9 +258,9 @@
 						table.getColumn('status')?.setFilterValue('');
 						table.getColumn('payment_status')?.setFilterValue('');
 					}}
-					class="px-3"
+					class="w-full px-3 sm:w-auto"
 				>
-					Clear
+					Clear Filters
 				</Button>
 			</div>
 		</div>
