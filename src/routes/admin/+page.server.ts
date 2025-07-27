@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { PageServerLoad } from './$types';
+import type { Actions } from '@sveltejs/kit';
 export const load: PageServerLoad = async ({ locals }) => {
 	const totalRevenue = await getTotalRevenue(locals.supabase);
 	const totalOrder = await getTotalOrder(locals.supabase);
@@ -16,6 +17,40 @@ export const load: PageServerLoad = async ({ locals }) => {
 		tableOrder: tableOrder || [],
 		orderEachDay: orderEachDay || []
 	};
+};
+
+export const actions: Actions = {
+	async downloadOrderCSV({ locals, request }) {
+		const formData = await request.formData();
+		const startDate = formData.get('start_date') as string;
+		const endDate = formData.get('end_date') as string;
+
+		try {
+			// Ambil data order dari Supabase function dengan filter tanggal
+			const { data, error } =
+				startDate && endDate
+					? await locals.supabase.rpc('get_flat_orders_by_date_range', {
+							start_date: startDate,
+							end_date: endDate
+						})
+					: await locals.supabase.rpc('get_flat_orders_by_date_range');
+
+			if (error) {
+				return { success: false, error: error.message };
+			}
+
+			if (!data || !Array.isArray(data) || data.length === 0) {
+				return {
+					success: false,
+					error: 'Data order tidak ditemukan untuk rentang tanggal tersebut.'
+				};
+			}
+
+			return { success: true, data };
+		} catch {
+			return { success: false, error: 'Terjadi kesalahan saat mengambil data.' };
+		}
+	}
 };
 
 // TODO: create proper logging mechanism

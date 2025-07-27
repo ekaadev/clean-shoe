@@ -2,6 +2,7 @@
 	import SectionCards from '@/components/section-cards.svelte';
 	import DataTable from '@/components/data-table.svelte';
 	import ChartAreaInteractiveOrder from '@/components/chart-area-interactive-order.svelte';
+	import SectionSummaryOrder from '@/components/section-summary-order.svelte';
 </script>
 
 <svelte:head>
@@ -19,6 +20,8 @@
 			</div>
 			<!-- Data Table -->
 			<DataTable />
+			<!-- Get Summary Data - Layout Cards -->
+			<SectionSummaryOrder />
 		</div>
 	</div>
 </div>
